@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QLabel, QLineEdit
 class Example(QWidget):
     def __init__(self):
         self.permission = -1
+        self.permission_1, self.permission_2 = '', ''
         self.permissions = ['800*600', '1024*768', '1280*1024', '1600*800']
         self.permission_modes = [0, 1, 2, 3, 4]
         super().__init__()
@@ -27,7 +28,7 @@ class Example(QWidget):
 
         self.btn = QPushButton('Применить', self)
         self.btn.move(150, 135)
-        self.btn.clicked.connect(self.end)
+        self.btn.clicked.connect(self.run)
 
         self.fir_input = QLineEdit(self)
         self.fir_input.move(30, 135)
@@ -72,11 +73,9 @@ class Example(QWidget):
         if radioButton.isChecked():
             self.permission = radioButton
 
-    def end(self):
-        if self.permission == 4:
-            self.permission_1, self.permission_2 = list(map(str, [self.first_input.text(), self.second_input.text()]))
-            print(self.permission_1)
-
+    def run(self):
+        x, y = list(map(int, [self.fir_input.text(), self.sec_input.text()]))
+        self.permission_1, self.permission_2 = x, y
 
 
 if __name__ == '__main__':
