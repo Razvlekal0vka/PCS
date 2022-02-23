@@ -1,0 +1,8 @@
+first start - False
+
+window dimensions:
+1 - 800*600
+2 - 1024*768
+3 - 1280*1024
+4 - 1600*800
+used -
