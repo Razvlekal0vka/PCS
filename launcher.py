@@ -4,6 +4,21 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QRadioButton
 from PyQt5.QtWidgets import QLabel
 
 
+def check_settings():
+    settings = ['first start - ', '', 'window dimensions:', '1 - 800*600', '2 - 1024*768', '3 - 1280*1024',
+                '4 - 1600*800', 'used -', '']
+    try:
+        set_list = open('settings.txt', 'r')
+        set_list.read()
+        num_line = 0
+        print('l')
+        for line in set_list:
+            print(line)
+            if num_line == 0:
+                pass
+    except Exception as e:
+        raise print('ggg')
+
 
 class Example(QWidget):
     def __init__(self):
@@ -11,7 +26,6 @@ class Example(QWidget):
         self.permission_1, self.permission_2 = '', ''
         self.permissions = ['800*600', '1024*768', '1280*1024', '1600*800']
         super().__init__()
-        self.check_settings()
         self.initUI()
 
     def initUI(self):
@@ -66,20 +80,10 @@ class Example(QWidget):
     def run(self):
         if self.permission not in self.permissions:
             self.label_Error.show()
-        self.check_settings()
+            print(self.permission)
 
-    def check_settings(self):
-        settings = ['first start - False', '', 'window dimensions:', '1 - 800*600', '2 - 1024*768', '3 - 1280*1024', '4 - 1600*800', 'used - n', '']
-        try:
-            set_list = open('settings.txt', 'r')
-            num_line = 0
-            for line in set_list:
-                print(line)
-                if num_line == 0:
-                    pass
-        except Exception as e:
-            raise print('ggg')
 
+check_settings()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
