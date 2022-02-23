@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QRadioButton
 from PyQt5.QtWidgets import QLabel
 
 
-def check_settings(start_settings):
+def check_settings(start_settings, perm):
     settings = []
     try:
         set_list = open('data/settings.txt', 'r')
@@ -76,15 +76,29 @@ def check_settings(start_settings):
                         words = line.split()
                         if words[2] == '800*600' or words[2] == '1024*768' or words[2] == '1280*1024' or \
                                 words[2] == '1600*800':
-                            settings.append(f'''{line}\n''')
+                            settings.append(f'''{line} {perm}\n''')
                         else:
-                            settings.append(f'''{start_settings[7]}\n''')
+                            settings.append(f'''{start_settings[7]} {perm}\n''')
                 else:
-                    settings.append(f'''{start_settings[7]}\n''')
+                    settings.append(f'''{start_settings[7]} {perm}\n''')
                 num_line += 1
 
+            elif num_line == 8:
+                if line == '':
+                    settings.append(f'''{line}\n''')
+                else:
+                    settings.append(f'''{start_settings[1]}\n''')
+                num_line += 1
+
+            else:
+                recording_settings(start_settings)
+                break
+
         set_list.close()
-        recording_settings(settings)
+        if num_line != 8:
+            recording_settings(start_settings)
+        else:
+            recording_settings(settings)
 
     except Exception as e:
         raise recording_settings(start_settings)
@@ -100,6 +114,15 @@ class Example(QWidget):
     def __init__(self):
         self.permission = ''
         self.permissions = ['800*600', '1024*768', '1280*1024', '1600*800']
+        self.new_settings = ['first start - False',
+                             '',
+                             'window dimensions:',
+                             '1 - 800*600',
+                             '2 - 1024*768',
+                             '3 - 1280*1024',
+                             '4 - 1600*800',
+                             'used -',
+                             '']
         super().__init__()
         self.initUI()
 
@@ -155,19 +178,9 @@ class Example(QWidget):
     def run(self):
         if self.permission not in self.permissions:
             self.label_Error.show()
+        else:
+            check_settings(self.start_settings, self.permission)
 
-
-new_settings = ['first start - False',
-                '',
-                'window dimensions:',
-                '1 - 800*600',
-                '2 - 1024*768',
-                '3 - 1280*1024',
-                '4 - 1600*800',
-                'used -',
-                '']
-
-check_settings(new_settings)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
