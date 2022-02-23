@@ -5,17 +5,96 @@ from PyQt5.QtWidgets import QLabel
 
 
 def check_settings():
-    settings = ['first start - ', '', 'window dimensions:', '1 - 800*600', '2 - 1024*768', '3 - 1280*1024',
-                '4 - 1600*800', 'used -', '']
+    start_settings = ['first start - False',
+                                '',
+                                'window dimensions:',
+                                '1 - 800*600',
+                                '2 - 1024*768',
+                                '3 - 1280*1024',
+                                '4 - 1600*800',
+                                'used -',
+                                '']
+    settings = []
     try:
         set_list = open('settings.txt', 'r')
-        set_list.read()
         num_line = 0
-        print('l')
         for line in set_list:
-            print(line)
+            line = line.replace("\n", "")
+
             if num_line == 0:
-                pass
+                if start_settings[0] in line:
+                    if start_settings[0] == line:
+                        settings.append(f'''{line}\n''')
+                    else:
+                        words = line.split()
+                        if words[2] == 'True' or words[2] == 'False':
+                            settings.append(f'''{line}\n''')
+                        else:
+                            settings.append(f'''{start_settings[0]}\n''')
+                else:
+                    settings.append(f'''{start_settings[0]}\n''')
+                num_line += 1
+
+            elif num_line == 1:
+                if line == '':
+                    settings.append(f'''{line}\n''')
+                else:
+                    settings.append(f'''{start_settings[1]}\n''')
+                num_line += 1
+
+            elif num_line == 2:
+                if line == 'window dimensions:':
+                    settings.append(f'''{line}\n''')
+                else:
+                    settings.append(f'''{start_settings[2]}\n''')
+                num_line += 1
+
+            elif num_line == 3:
+                if line == '1 - 800*600':
+                    settings.append(f'''{line}\n''')
+                else:
+                    settings.append(f'''{start_settings[3]}\n''')
+                num_line += 1
+
+            elif num_line == 4:
+                if line == '2 - 1024*768':
+                    settings.append(f'''{line}\n''')
+                else:
+                    settings.append(f'''{start_settings[4]}\n''')
+                num_line += 1
+
+            elif num_line == 5:
+                if line == '3 - 1280*1024':
+                    settings.append(f'''{line}\n''')
+                else:
+                    settings.append(f'''{start_settings[5]}\n''')
+                num_line += 1
+
+            elif num_line == 6:
+                if line == '4 - 1600*800':
+                    settings.append(f'''{line}\n''')
+                else:
+                    settings.append(f'''{start_settings[6]}\n''')
+                num_line += 1
+
+            elif num_line == 7:
+                if start_settings[7] in line:
+                    if start_settings[7] == line:
+                        settings.append(f'''{line}\n''')
+                    else:
+                        words = line.split()
+                        if words[2] == '800*600' or words[2] == '1024*768' or words[2] == '1280*1024' or\
+                                words[2] == '1600*800':
+                            settings.append(f'''{line}\n''')
+                        else:
+                            settings.append(f'''{start_settings[7]}\n''')
+                else:
+                    settings.append(f'''{start_settings[7]}\n''')
+                num_line += 1
+
+        for e in settings:
+            print(e)
+
     except Exception as e:
         raise print('ggg')
 
@@ -23,7 +102,6 @@ def check_settings():
 class Example(QWidget):
     def __init__(self):
         self.permission = ''
-        self.permission_1, self.permission_2 = '', ''
         self.permissions = ['800*600', '1024*768', '1280*1024', '1600*800']
         super().__init__()
         self.initUI()
@@ -80,7 +158,6 @@ class Example(QWidget):
     def run(self):
         if self.permission not in self.permissions:
             self.label_Error.show()
-            print(self.permission)
 
 
 check_settings()
