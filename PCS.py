@@ -26,7 +26,7 @@ class Example(QWidget):
         self.read()
 
         self.setGeometry(100, 100, int(self.screen_resolution[0]), int(self.screen_resolution[1]))
-        self.setWindowTitle('PCS')
+        self.setWindowTitle('Personal Cloud Sync')
 
 
 if __name__ == '__main__':

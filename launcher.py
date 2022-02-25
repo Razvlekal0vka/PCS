@@ -4,11 +4,6 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QRadioButton
 from PyQt5.QtWidgets import QLabel
 
 
-def next():
-    os.system('PCS.py')
-    sys.exit()
-
-
 class Example(QWidget):
     def __init__(self):
         self.permission = ''
@@ -84,7 +79,8 @@ class Example(QWidget):
             else:
                 settings_file.write(f'''{line}\n''')
         settings_file.close()
-        next()
+        os.system('PCS.py')
+        sys.exit()
 
 
 code = 'start'
@@ -112,7 +108,8 @@ if code == 'start':
     except Exception as e:
         code = 'new_set'
     if code == 'start':
-        next()
+        os.system('PCS.py')
+        sys.exit()
 
 if code == 'new_set':
     if __name__ == '__main__':
