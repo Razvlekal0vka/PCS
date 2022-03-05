@@ -157,7 +157,10 @@ class Example(QWidget):
         self.permission_1 = self.permissions[5]
 
     def run(self):
-        if self.permission not in self.permissions and self.permission_1 not in self.permissions and self.permission > self.permission_1:
+        permission, permission_1 = self.permission.split('*'), self.permission_1.split('*')
+        print(permission)
+        print(permission_1)
+        if self.permission not in self.permissions or self.permission_1 not in self.permissions or int(permission[0]) < int(permission_1[0]) or int(permission[1]) < int(permission_1[1]):
             self.label_Error.show()
         else:
             self.check_and_settings()
@@ -166,6 +169,7 @@ class Example(QWidget):
         settings = []
         settings.append('True')
         settings.append(self.permission)
+        settings.append(self.permission_1)
         settings_file = open('data/settings.txt', 'w')
         for line in settings:
             if line == settings[-1]:
@@ -188,26 +192,36 @@ if code == 'start':
             if num_line == 0:
                 if line == 'False' or line != 'True':
                     code = 'new_set'
+                    print('-1')
             elif num_line == 1 or num_line == 2:
                 if line != '800*600' and line != '1280*720' and line != '1600*900' and line != '1920*1080' and \
                         line != '2048*1152' and line != '3840*2160':
                     code = 'new_set'
+                    print('-2')
                 else:
-                    if line == '800*600' and line == '1280*720' and line == '1600*900' and line == '1920*1080' and \
-                            line == '2048*1152' and line == '3840*2160':
+                    if line == '800*600' or line == '1280*720' or line == '1600*900' or line == '1920*1080' or \
+                            line == '2048*1152' or line == '3840*2160':
                         pass
                     else:
                         code = 'new_set'
+                        print(line)
+                        print('-3')
             num_line += 1
+            print(num_line)
         if num_line < 3:
             code = 'new_set'
+            print('-4')
         else:
             l1, l2 = set_list[1].split('*'), set_list[2].split('*')
-            if l1[0] > l2[0] or l1[1] > l2[1]:
+            if int(l1[0]) < int(l2[0]) or int(l1[1]) < int(l2[1]):
                 code = 'new_set'
+                print('-5')
+                print(l1)
+                print(l2)
         set_list.close()
     except Exception as e:
         code = 'new_set'
+        print('-6')
     if code == 'start':
         os.system('examination.py')
         sys.exit()

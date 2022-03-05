@@ -47,7 +47,7 @@ class Board:
                 elif self.board[j][i] != 0:
                     num = self.board1[j][i]
                     screen.blit(self.font.render(str(num), 1, (50, 250, 50)), (self.left + self.cell_size * i,
-                                      self.top + self.cell_size * j))
+                                                                               self.top + self.cell_size * j))
 
                 pygame.draw.rect(screen,
                                  (0, 0, 0),
