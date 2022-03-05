@@ -13,7 +13,7 @@ class Example(QWidget):
     def __init__(self):
         self.permission = ''
         self.permission_1 = ''
-        self.permissions = ['800*600', '1280*720', '1600*900', '1920*1080', '2048*1152', '3840*2160']
+        self.permissions = ['800*450', '1280*720', '1600*900', '1920*1080', '2048*1152', '3840*2160']
         self.new_settings = ['True',
                              '1600*900', '1920*1080']
         super().__init__()
@@ -44,7 +44,7 @@ class Example(QWidget):
         self.btn.move(305, 190)
         self.btn.clicked.connect(self.run)
 
-        self.radiobutton_1_1 = QRadioButton('800*600', self)
+        self.radiobutton_1_1 = QRadioButton('800*450', self)
         self.radiobutton_1_1.move(15, 65)
         self.radiobutton_1_1.toggled.connect(self.dimensions_0)
 
@@ -76,7 +76,7 @@ class Example(QWidget):
         rb_gr.addButton(self.radiobutton_1_5)
         rb_gr.addButton(self.radiobutton_1_6)
 
-        self.radiobutton_2_1 = QRadioButton('800*600', self)
+        self.radiobutton_2_1 = QRadioButton('800*450', self)
         self.radiobutton_2_1.move(215, 65)
         self.radiobutton_2_1.toggled.connect(self.dimensions_0_1)
 
@@ -192,11 +192,11 @@ if code == 'start':
                     code = 'new_set'
             elif num_line == 1 or num_line == 2:
                 lines.append(line)
-                if line != '800*600' and line != '1280*720' and line != '1600*900' and line != '1920*1080' and \
+                if line != '800*450' and line != '1280*720' and line != '1600*900' and line != '1920*1080' and \
                         line != '2048*1152' and line != '3840*2160':
                     code = 'new_set'
                 else:
-                    if line == '800*600' or line == '1280*720' or line == '1600*900' or line == '1920*1080' or \
+                    if line == '800*450' or line == '1280*720' or line == '1600*900' or line == '1920*1080' or \
                             line == '2048*1152' or line == '3840*2160':
                         pass
                     else:
