@@ -20,52 +20,52 @@ class Example(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(300, 300, 390, 225)
+        self.setGeometry(300, 300, 395, 225)
         self.setWindowTitle('PCS')
 
         self.label_1 = QLabel(self)
         self.label_1.setText("Выберите разрешение вашего экрана и приложения")
-        self.label_1.move(10, 15)
+        self.label_1.move(15, 15)
 
         self.label_2 = QLabel(self)
         self.label_2.setText("Разрешение вашего экрана:")
-        self.label_2.move(10, 40)
+        self.label_2.move(15, 40)
 
         self.label_3 = QLabel(self)
         self.label_3.setText("Разрешение приложения:")
-        self.label_3.move(210, 40)
+        self.label_3.move(215, 40)
 
         self.label_Error = QLabel(self)
         self.label_Error.setText("Error")
-        self.label_Error.move(325, 175)
+        self.label_Error.move(330, 175)
         self.label_Error.hide()
 
         self.btn = QPushButton('Применить', self)
-        self.btn.move(300, 190)
+        self.btn.move(305, 190)
         self.btn.clicked.connect(self.run)
 
         self.radiobutton_1_1 = QRadioButton('800*600', self)
-        self.radiobutton_1_1.move(10, 65)
+        self.radiobutton_1_1.move(15, 65)
         self.radiobutton_1_1.toggled.connect(self.dimensions_0)
 
         self.radiobutton_1_2 = QRadioButton('1280*720', self)
-        self.radiobutton_1_2.move(10, 90)
+        self.radiobutton_1_2.move(15, 90)
         self.radiobutton_1_2.toggled.connect(self.dimensions_1)
 
         self.radiobutton_1_3 = QRadioButton('1600*900', self)
-        self.radiobutton_1_3.move(10, 115)
+        self.radiobutton_1_3.move(15, 115)
         self.radiobutton_1_3.toggled.connect(self.dimensions_2)
 
         self.radiobutton_1_4 = QRadioButton('1920*1080', self)
-        self.radiobutton_1_4.move(10, 140)
+        self.radiobutton_1_4.move(15, 140)
         self.radiobutton_1_4.toggled.connect(self.dimensions_3)
 
         self.radiobutton_1_5 = QRadioButton('2048*1152', self)
-        self.radiobutton_1_5.move(10, 165)
+        self.radiobutton_1_5.move(15, 165)
         self.radiobutton_1_5.toggled.connect(self.dimensions_4)
 
         self.radiobutton_1_6 = QRadioButton('3840*2160', self)
-        self.radiobutton_1_6.move(10, 190)
+        self.radiobutton_1_6.move(15, 190)
         self.radiobutton_1_6.toggled.connect(self.dimensions_5)
 
         rb_gr = QButtonGroup(self)
@@ -77,27 +77,27 @@ class Example(QWidget):
         rb_gr.addButton(self.radiobutton_1_6)
 
         self.radiobutton_2_1 = QRadioButton('800*600', self)
-        self.radiobutton_2_1.move(210, 65)
+        self.radiobutton_2_1.move(215, 65)
         self.radiobutton_2_1.toggled.connect(self.dimensions_0_1)
 
         self.radiobutton_2_2 = QRadioButton('1280*720', self)
-        self.radiobutton_2_2.move(210, 90)
+        self.radiobutton_2_2.move(215, 90)
         self.radiobutton_2_2.toggled.connect(self.dimensions_1_1)
 
         self.radiobutton_2_3 = QRadioButton('1600*900', self)
-        self.radiobutton_2_3.move(210, 115)
+        self.radiobutton_2_3.move(215, 115)
         self.radiobutton_2_3.toggled.connect(self.dimensions_2_1)
 
         self.radiobutton_2_4 = QRadioButton('1920*1080', self)
-        self.radiobutton_2_4.move(210, 140)
+        self.radiobutton_2_4.move(215, 140)
         self.radiobutton_2_4.toggled.connect(self.dimensions_3_1)
 
         self.radiobutton_2_5 = QRadioButton('2048*1152', self)
-        self.radiobutton_2_5.move(210, 165)
+        self.radiobutton_2_5.move(215, 165)
         self.radiobutton_2_5.toggled.connect(self.dimensions_4_1)
 
         self.radiobutton_2_6 = QRadioButton('3840*2160', self)
-        self.radiobutton_2_6.move(210, 190)
+        self.radiobutton_2_6.move(215, 190)
         self.radiobutton_2_6.toggled.connect(self.dimensions_5_1)
 
         rb_gr1 = QButtonGroup(self)
@@ -158,8 +158,6 @@ class Example(QWidget):
 
     def run(self):
         permission, permission_1 = self.permission.split('*'), self.permission_1.split('*')
-        print(permission)
-        print(permission_1)
         if self.permission not in self.permissions or self.permission_1 not in self.permissions or int(permission[0]) < int(permission_1[0]) or int(permission[1]) < int(permission_1[1]):
             self.label_Error.show()
         else:
@@ -178,11 +176,11 @@ class Example(QWidget):
                 settings_file.write(f'''{line}\n''')
         settings_file.close()
         os.system('examination.py')
-        print('hkfkfk')
         exit()
 
 
 code = 'start'
+lines = []
 if code == 'start':
     try:
         set_list = open('data/settings.txt', 'r')
@@ -192,38 +190,27 @@ if code == 'start':
             if num_line == 0:
                 if line == 'False' or line != 'True':
                     code = 'new_set'
-                    print('-1')
             elif num_line == 1 or num_line == 2:
+                lines.append(line)
                 if line != '800*600' and line != '1280*720' and line != '1600*900' and line != '1920*1080' and \
                         line != '2048*1152' and line != '3840*2160':
                     code = 'new_set'
-                    print('-2')
                 else:
                     if line == '800*600' or line == '1280*720' or line == '1600*900' or line == '1920*1080' or \
                             line == '2048*1152' or line == '3840*2160':
                         pass
                     else:
                         code = 'new_set'
-                        print(line)
-                        print('-3')
             num_line += 1
-            print(num_line)
         if num_line < 3:
             code = 'new_set'
-            print('-4')
         else:
-            print(set_list)
-            print(set_list)
-            l1, l2 = set_list[1].split('*'), set_list[2].split('*')
+            l1, l2 = lines[0].split('*'), lines[1].split('*')
             if int(l1[0]) < int(l2[0]) or int(l1[1]) < int(l2[1]):
                 code = 'new_set'
-                print('-5')
-                print(l1)
-                print(l2)
         set_list.close()
     except Exception as e:
         code = 'new_set'
-        print('-6')
     if code == 'start':
         os.system('examination.py')
         sys.exit()
