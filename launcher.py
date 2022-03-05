@@ -14,13 +14,12 @@ class Example(QWidget):
         self.permission = ''
         self.permission_1 = ''
         self.permissions = ['800*600', '1280*720', '1600*900', '1920*1080', '2048*1152', '3840*2160']
-        self.new_settings = ['True',
-                             '1600*900', '1920*1080']
+        self.new_settings = ['True', '1600*900', '1920*1080']
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        self.setGeometry(300, 300, 395, 225)
+        self.setGeometry(300, 300, 400, 225)
         self.setWindowTitle('PCS')
 
         self.label_1 = QLabel(self)
