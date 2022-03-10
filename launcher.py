@@ -191,11 +191,11 @@ if code == 'start':
                     code = 'new_set'
             elif num_line == 1 or num_line == 2:
                 lines.append(line)
-                if line != '800*600' and line != '1280*720' and line != '1600*900' and line != '1920*1080' and \
+                if line != '800*450' and line != '1280*720' and line != '1600*900' and line != '1920*1080' and \
                         line != '2048*1152' and line != '3840*2160':
                     code = 'new_set'
                 else:
-                    if line == '800*600' or line == '1280*720' or line == '1600*900' or line == '1920*1080' or \
+                    if line == '800*450' or line == '1280*720' or line == '1600*900' or line == '1920*1080' or \
                             line == '2048*1152' or line == '3840*2160':
                         pass
                     else:
