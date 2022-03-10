@@ -1,6 +1,4 @@
 import pygame
-import copy
-import random
 
 set_data = []
 num_cell_x, num_cell_y, cell_size, shift_left, shift_top, size = 0, 0, 0, 0, 0, 0
@@ -61,6 +59,12 @@ class Board:
         self.font = pygame.font.SysFont("Comic MS", 20)
         self.coord_loading = [0, 14]
 
+        self.col_examination = 28
+        self.number_of_cells = self.width - 2
+        self.percent = 0
+
+
+
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
         self.left = left
@@ -110,12 +114,26 @@ class Board:
             if self.board[cell_coords[1]][cell_coords[0]] == 0:
                 self.k = 2
                 self.board[cell_coords[1]][cell_coords[0]] = 2
-        print(cell_coords)
 
-    def loading(self, tic):
-        self.coord_loading = [self.coord_loading[0] + 1, self.coord_loading[1]]
-        if self.coord_loading[0] <= 26:
-            self.board[self.coord_loading[1]][self.coord_loading[0]] = 1
+    def loading(self, step_examination):
+        number_of_cells = self.number_of_cells
+        col_examination = self.col_examination
+        self.percent += (step_examination / col_examination - self.percent)
+        percent_for_step = number_of_cells / col_examination
+
+        print(percent_for_step)
+        print(self.percent)
+
+        if self.percent >= percent_for_step:
+            self.percent -= percent_for_step
+            self.coord_loading = [self.coord_loading[0] + 1, self.coord_loading[1]]
+            if self.coord_loading[0] <= 26:
+                self.board[self.coord_loading[1]][self.coord_loading[0]] = 1
+            if self.coord_loading[0] == 26:
+                pass
+                '''KILPROC'''
+
+o = 0
 
 
 board = Board(num_cell_x, num_cell_y, cell_size, shift_left, shift_top)
@@ -130,8 +148,9 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             board.get_click(event.pos)
             op = True
-    if k % 60 == 0:
-        board.loading(k)
+            o += 1
+            print(o)
+            board.loading(o)
     screen.fill((43, 43, 43))
     board.render(screen)
     pygame.display.flip()

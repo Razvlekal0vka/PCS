@@ -13,7 +13,7 @@ class Example(QWidget):
     def __init__(self):
         self.permission = ''
         self.permission_1 = ''
-        self.permissions = ['800*600', '1280*720', '1600*900', '1920*1080', '2048*1152', '3840*2160']
+        self.permissions = ['800*450', '1280*720', '1600*900', '1920*1080', '2048*1152', '3840*2160']
         self.new_settings = ['True', '1600*900', '1920*1080']
         super().__init__()
         self.initUI()
@@ -43,7 +43,7 @@ class Example(QWidget):
         self.btn.move(305, 190)
         self.btn.clicked.connect(self.run)
 
-        self.radiobutton_1_1 = QRadioButton('800*600', self)
+        self.radiobutton_1_1 = QRadioButton('800*450', self)
         self.radiobutton_1_1.move(15, 65)
         self.radiobutton_1_1.toggled.connect(self.dimensions_0)
 
@@ -75,7 +75,7 @@ class Example(QWidget):
         rb_gr.addButton(self.radiobutton_1_5)
         rb_gr.addButton(self.radiobutton_1_6)
 
-        self.radiobutton_2_1 = QRadioButton('800*600', self)
+        self.radiobutton_2_1 = QRadioButton('800*450', self)
         self.radiobutton_2_1.move(215, 65)
         self.radiobutton_2_1.toggled.connect(self.dimensions_0_1)
 
