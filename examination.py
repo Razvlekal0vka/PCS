@@ -22,12 +22,16 @@ for line in set_list:
             cell_size = 60
             num_cell_x, num_cell_y = 28, 16
             shift_left, shift_top = -40, -30
+        elif line == '1920*1080':
+            cell_size = 72
+            num_cell_x, num_cell_y = 28, 16
+            shift_left, shift_top = -48, -36
         elif line == '2048*1152':
-            cell_size = 60
+            cell_size = 77
             num_cell_x, num_cell_y = 28, 16
             shift_left, shift_top = -51, -38
         elif line == '3840*2160':
-            cell_size = 60
+            cell_size = 144
             num_cell_x, num_cell_y = 28, 16
             shift_left, shift_top = -96, -72
         set_data.append(line)
