@@ -49,6 +49,11 @@ class Board:
         self.width = width
         self.height = height
         self.board = [[0] * width for _ in range(height)]
+        # значения
+        # 0 - ничего не выделяется
+        # 1 - оранжевый квадрат загрузки
+        # 2 - красный квадрат ошибки в загрузке
+        # 3 - клетка в которую записывается текст
         self.board1 = [[0] * width for _ in range(height)]
         # значения по умолчанию
         self.left = left
@@ -59,11 +64,31 @@ class Board:
         self.font = pygame.font.SysFont("Comic MS", 20)
         self.coord_loading = [0, 14]
 
-        self.col_examination = 28
+        self.col_examination = 20
         self.number_of_cells = self.width - 2
-        self.percent = 0
+        self.percent, self.rest_of_step = 0, 0
+        self.percent_for_step = (self.col_examination / self.number_of_cells) / self.col_examination
+        self.percent_3 = self.number_of_cells // self.col_examination
+        self.rest_of_step = self.number_of_cells % self.col_examination
+        self.col_step_3 = 0
 
+        self.board_words = [[0] * width for _ in range(height)]
+        self.letters_ru = 'АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЫыЭэЮюЯя'
+        self.letters_en = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz'
+        self.letters_sy = '_-ъь[]|/.,<>?&'
+        self.letters_nu = '0123456789'
 
+        '''записываем слова'''
+        name = ['Personal', 'Cloud', 'Sync']
+        for _ in range(1, 9):
+            self.board[1][_] = 3
+            self.board_words[_][1] = name[0][_ - 1]
+        for _ in range(1, 6):
+            self.board[2][_] = 3
+            self.board_words[_][2] = name[1][_ - 1]
+        for _ in range(1, 5):
+            self.board[3][_] = 3
+            self.board_words[_][3] = name[2][_ - 1]
 
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
@@ -74,16 +99,29 @@ class Board:
     def render(self, screen):
         for i in range(self.width):
             for j in range(self.height):
-                if self.board[j][i] == 666:
-                    pygame.draw.rect(screen,
-                                     (60, 63, 65),
-                                     (self.left + self.cell_size * i,
-                                      self.top + self.cell_size * j,
-                                      self.cell_size, self.cell_size), 0)
-
-                elif self.board[j][i] == 1:
+                if self.board[j][i] == 1:
                     pygame.draw.rect(screen,
                                      (198, 117, 49),
+                                     (self.left + self.cell_size * i,
+                                      self.top + self.cell_size * j,
+                                      self.cell_size, self.cell_size), 6)
+
+                elif self.board[j][i] == 2:
+                    pygame.draw.rect(screen,
+                                     (203, 49, 55),
+                                     (self.left + self.cell_size * i,
+                                      self.top + self.cell_size * j,
+                                      self.cell_size, self.cell_size), 6)
+
+
+                elif self.board[j][i] == 3:
+                    cell_rect = pygame.Rect(self.left + i * self.cell_size, self.top + j * self.cell_size,
+                                            self.cell_size, self.cell_size)
+                    text = self.font.render(str(self.board_words[i][j]), True, (255, 255, 255))
+                    screen.blit(text, (cell_rect.left + 3, cell_rect.top + 3))
+
+                    pygame.draw.rect(screen,
+                                     (60, 63, 65),
                                      (self.left + self.cell_size * i,
                                       self.top + self.cell_size * j,
                                       self.cell_size, self.cell_size), 6)
@@ -96,7 +134,7 @@ class Board:
                                       self.cell_size, self.cell_size), 6)
 
                 pygame.draw.rect(screen, (43, 43, 43), (
-                self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size, self.cell_size), 3)
+                    self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size, self.cell_size), 3)
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
@@ -113,28 +151,55 @@ class Board:
         if cell_coords:
             if self.board[cell_coords[1]][cell_coords[0]] == 0:
                 self.k = 2
-                self.board[cell_coords[1]][cell_coords[0]] = 2
+                self.board[cell_coords[1]][cell_coords[0]] = 666
 
-    def loading(self, step_examination):
-        number_of_cells = self.number_of_cells
-        col_examination = self.col_examination
-        self.percent += (step_examination / col_examination - self.percent)
-        percent_for_step = number_of_cells / col_examination
+    def loading(self, step_examination, cod_examination):
+        if self.col_examination > self.number_of_cells:
+            col_examination = self.col_examination
+            self.percent += (step_examination / col_examination - self.percent)
+            percent_for_step = (self.col_examination / self.number_of_cells) / self.col_examination
 
-        print(percent_for_step)
-        print(self.percent)
+            if self.percent >= self.percent_for_step:
+                self.coord_loading = [self.coord_loading[0] + 1, self.coord_loading[1]]
+                if self.coord_loading[0] <= self.number_of_cells:
+                    self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
+                if self.percent >= 1:
+                    print('kilme')
+                    '''KILPROC'''
 
-        if self.percent >= percent_for_step:
-            self.percent -= percent_for_step
+                self.percent -= self.percent_for_step
+                self.percent_for_step += percent_for_step
+
+        elif self.col_examination == self.number_of_cells:
             self.coord_loading = [self.coord_loading[0] + 1, self.coord_loading[1]]
-            if self.coord_loading[0] <= 26:
-                self.board[self.coord_loading[1]][self.coord_loading[0]] = 1
-            if self.coord_loading[0] == 26:
-                pass
-                '''KILPROC'''
+            if self.coord_loading[0] <= self.number_of_cells:
+                self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
+                if self.coord_loading[0] == self.number_of_cells:
+                    print('kilme')
+                    '''KILPROC'''
+
+        elif self.col_examination < self.number_of_cells:
+            self.percent = self.number_of_cells // self.col_examination
+            self.rest_of_step = self.number_of_cells % self.col_examination
+            for _ in range(self.percent_3):
+                self.coord_loading = [self.coord_loading[0] + 1, self.coord_loading[1]]
+                if self.coord_loading[0] <= self.number_of_cells:
+                    self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
+                    if self.coord_loading[0] == self.number_of_cells:
+                        print('kilme')
+                        '''KILPROC'''
+            if self.col_step_3 < self.rest_of_step:
+                self.col_step_3 += 1
+                self.coord_loading = [self.coord_loading[0] + 1, self.coord_loading[1]]
+                if self.coord_loading[0] <= self.number_of_cells:
+                    self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
+                    if self.coord_loading[0] == self.number_of_cells:
+                        print('kilme')
+                        '''KILPROC'''
+
 
 o = 0
-
+code = 1  # or 2 if that is error
 
 board = Board(num_cell_x, num_cell_y, cell_size, shift_left, shift_top)
 k = 0
@@ -149,8 +214,7 @@ while running:
             board.get_click(event.pos)
             op = True
             o += 1
-            print(o)
-            board.loading(o)
+            board.loading(o, code)
     screen.fill((43, 43, 43))
     board.render(screen)
     pygame.display.flip()

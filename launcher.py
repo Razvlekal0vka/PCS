@@ -168,11 +168,11 @@ class Example(QWidget):
         settings.append(self.permission)
         settings.append(self.permission_1)
         settings_file = open('data/settings.txt', 'w')
-        for line in settings:
-            if line == settings[-1]:
-                settings_file.write(f'''{line}''')
+        for elem_num in range(len(settings)):
+            if elem_num == len(settings) - 1:
+                settings_file.write(f'''{settings[elem_num]}''')
             else:
-                settings_file.write(f'''{line}\n''')
+                settings_file.write(f'''{settings[elem_num]}\n''')
         settings_file.close()
         os.system('examination.py')
         exit()

@@ -1,15 +1,17 @@
-n = 10
-k = 28
+def loading(self, step_examination):
+    number_of_cells = self.number_of_cells
+    col_examination = self.col_examination
+    self.percent += (step_examination / col_examination - self.percent)
+    self.percent_for_step = col_examination / number_of_cells
 
-num = 1
-p = 0
+    print(self.percent_for_step)
+    print(self.percent)
 
-p = p + num / k
-
-p1 = n / k
-
-if p >= p1:
-    'risuem'
-    p -= p1
-
-
+    if self.percent >= self.percent_for_step:
+        self.percent -= self.percent_for_step
+        self.coord_loading = [self.coord_loading[0] + 1, self.coord_loading[1]]
+        if self.coord_loading[0] <= 26:
+            self.board[self.coord_loading[1]][self.coord_loading[0]] = 1
+        if self.coord_loading[0] == 26:
+            pass
+            '''KILPROC'''
