@@ -1,3 +1,5 @@
+import os
+
 import pygame
 
 set_data = []
@@ -78,6 +80,34 @@ class Board:
         self.letters_sy = '_-ъь[]|/.,<>?&'
         self.letters_nu = '0123456789'
 
+        # Отступы для букв
+        self.indents_and_sizes_for_letters_800_450 = {'P': [7, 4], 'e': [8, 4], 'r': [8, 4], 's': [8, 4],
+                                                      'o': [8, 4], 'n': [8, 4], 'a': [8, 4], 'l': [11, 4],
+                                                      'C': [6, 4], 'u': [7, 4], 'd': [7, 4], 'S': [7, 4],
+                                                      'y': [7, 0], 'c': [7, 4], 'razm': 35}
+        self.indents_and_sizes_for_letters_1280_720 = {'P': [12, 7], 'e': [13, 7], 'r': [15, 7], 's': [13, 7],
+                                                       'o': [13, 7], 'n': [13, 7], 'a': [13, 7], 'l': [18, 7],
+                                                       'C': [10, 7], 'u': [12, 7], 'd': [12, 7], 'S': [12, 7],
+                                                       'y': [12, 0], 'c': [12, 7], 'razm': 56}
+        self.indents_and_sizes_for_letters_1600_900 = {'P': [15, 9], 'e': [16, 9], 'r': [19, 9], 's': [16, 9],
+                                                       'o': [16, 9], 'n': [16, 9], 'a': [16, 9], 'l': [23, 9],
+                                                       'C': [12, 9], 'u': [15, 9], 'd': [15, 9], 'S': [15, 9],
+                                                       'y': [15, 0], 'c': [15, 9], 'razm': 70}
+        self.indents_and_sizes_for_letters_1920_1080 = {'P': [18, 11], 'e': [19, 11], 'r': [23, 11], 's': [19, 11],
+                                                        'o': [19, 11], 'n': [19, 11], 'a': [19, 11], 'l': [28, 11],
+                                                        'C': [14, 11], 'u': [18, 11], 'd': [23, 11], 'S': [18, 11],
+                                                        'y': [18, 0], 'c': [18, 11], 'razm': 84}
+        self.indents_and_sizes_for_letters_2048_1152 = {'P': [19, 11], 'e': [20, 11], 'r': [24, 22], 's': [20, 11],
+                                                        'o': [20, 11], 'n': [20, 11], 'a': [20, 11], 'l': [29, 11],
+                                                        'C': [15, 11], 'u': [19, 11], 'd': [19, 11], 'S': [19, 11],
+                                                        'y': [19, 0], 'c': [19, 11], 'razm': 89}
+        self.indents_and_sizes_for_letters_3840_2160 = {'P': [36, 22], 'e': [38, 22], 'r': [46, 22], 's': [38, 22],
+                                                        'o': [38, 22], 'n': [38, 22], 'a': [38, 22], 'l': [56, 22],
+                                                        'C': [28, 22], 'u': [36, 22], 'd': [46, 22], 'S': [36, 22],
+                                                        'y': [36, 0], 'c': [36, 22], 'razm': 168}
+        self.colors = [(60, 63, 65), (60, 63, 65), (60, 63, 65), (60, 63, 65), (60, 63, 65), (43, 43, 43),
+                       (198, 117, 49)]
+
         '''записываем слова'''
         name = ['Personal', 'Cloud', 'Sync']
         for _ in range(1, 9):
@@ -90,6 +120,8 @@ class Board:
             self.board[3][_] = 3
             self.board_words[_][3] = name[2][_ - 1]
 
+        self.code = 'load1'
+
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
         self.left = left
@@ -101,7 +133,7 @@ class Board:
             for j in range(self.height):
                 if self.board[j][i] == 1:
                     pygame.draw.rect(screen,
-                                     (198, 117, 49),
+                                     self.colors[6],
                                      (self.left + self.cell_size * i,
                                       self.top + self.cell_size * j,
                                       self.cell_size, self.cell_size), 6)
@@ -115,17 +147,64 @@ class Board:
 
 
                 elif self.board[j][i] == 3:
+                    shift_left, shift_down, size = 0, 0, self.cell_size
+                    if self.cell_size == 60:
+                        shift_left = self.indents_and_sizes_for_letters_1600_900[str(self.board_words[i][j])][0]
+                        shift_down = self.indents_and_sizes_for_letters_1600_900[str(self.board_words[i][j])][1]
+                        size = self.indents_and_sizes_for_letters_1600_900['razm']
+                    elif self.cell_size == 48:
+                        shift_left = self.indents_and_sizes_for_letters_1280_720[str(self.board_words[i][j])][0]
+                        shift_down = self.indents_and_sizes_for_letters_1280_720[str(self.board_words[i][j])][1]
+                        size = self.indents_and_sizes_for_letters_1280_720['razm']
+                    elif self.cell_size == 30:
+                        shift_left = self.indents_and_sizes_for_letters_800_450[str(self.board_words[i][j])][0]
+                        shift_down = self.indents_and_sizes_for_letters_800_450[str(self.board_words[i][j])][1]
+                        size = self.indents_and_sizes_for_letters_800_450['razm']
+                    elif self.cell_size == 72:
+                        shift_left = self.indents_and_sizes_for_letters_1920_1080[str(self.board_words[i][j])][0]
+                        shift_down = self.indents_and_sizes_for_letters_1920_1080[str(self.board_words[i][j])][1]
+                        size = self.indents_and_sizes_for_letters_1920_1080['razm']
+                    elif self.cell_size == 77:
+                        shift_left = self.indents_and_sizes_for_letters_2048_1152[str(self.board_words[i][j])][0]
+                        shift_down = self.indents_and_sizes_for_letters_2048_1152[str(self.board_words[i][j])][1]
+                        size = self.indents_and_sizes_for_letters_2048_1152['razm']
+                    elif self.cell_size == 144:
+                        shift_left = self.indents_and_sizes_for_letters_3840_2160[str(self.board_words[i][j])][0]
+                        shift_down = self.indents_and_sizes_for_letters_3840_2160[str(self.board_words[i][j])][1]
+                        size = self.indents_and_sizes_for_letters_3840_2160['razm']
+                    if 2 <= i <= 4 and j == 3:
+                        RGB = self.colors[0]
+                    elif (i == 1 and j == 2) or (1 <= i <= 4 and j == 1) or (i == 1 and j == 3):
+                        RGB = self.colors[1]
+                    elif 2 <= i <= 5 and j == 2:
+                        RGB = self.colors[2]
+                    elif 5 <= i <= 9 and j == 1:
+                        RGB = self.colors[3]
+                    else:
+                        RGB = self.colors[4]
                     cell_rect = pygame.Rect(self.left + i * self.cell_size, self.top + j * self.cell_size,
                                             self.cell_size, self.cell_size)
-                    text = self.font.render(str(self.board_words[i][j]), True, (255, 255, 255))
-                    screen.blit(text, (cell_rect.left + 3, cell_rect.top + 3))
-
-                    pygame.draw.rect(screen,
-                                     (60, 63, 65),
-                                     (self.left + self.cell_size * i,
-                                      self.top + self.cell_size * j,
-                                      self.cell_size, self.cell_size), 6)
-
+                    if self.code == 'load1' or self.code == 'kil_end' or self.code == 'end':
+                        pygame.draw.rect(screen,
+                                         RGB,
+                                         (self.left + self.cell_size * i,
+                                          self.top + self.cell_size * j,
+                                          self.cell_size, self.cell_size), 6)
+                    elif self.code == 'load2' or self.code == 'kil':
+                        pygame.draw.rect(screen,
+                                         RGB,
+                                         (self.left + self.cell_size * i,
+                                          self.top + self.cell_size * j,
+                                          self.cell_size, self.cell_size), 0)
+                    else:
+                        pygame.draw.rect(screen,
+                                         (255, 255, 255),
+                                         (self.left + self.cell_size * i,
+                                          self.top + self.cell_size * j,
+                                          self.cell_size, self.cell_size), 0)
+                    self.font = pygame.font.Font(None, size)
+                    text = self.font.render(str(self.board_words[i][j]), True, self.colors[5])
+                    screen.blit(text, (cell_rect.left + shift_left, cell_rect.top + shift_down))
                 else:
                     pygame.draw.rect(screen,
                                      (60, 63, 65),
@@ -164,8 +243,7 @@ class Board:
                 if self.coord_loading[0] <= self.number_of_cells:
                     self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
                 if self.percent >= 1:
-                    print('kilme')
-                    '''KILPROC'''
+                    self.code = 'kil'
 
                 self.percent -= self.percent_for_step
                 self.percent_for_step += percent_for_step
@@ -175,8 +253,7 @@ class Board:
             if self.coord_loading[0] <= self.number_of_cells:
                 self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
                 if self.coord_loading[0] == self.number_of_cells:
-                    print('kilme')
-                    '''KILPROC'''
+                    self.code = 'kil'
 
         elif self.col_examination < self.number_of_cells:
             self.percent = self.number_of_cells // self.col_examination
@@ -186,35 +263,314 @@ class Board:
                 if self.coord_loading[0] <= self.number_of_cells:
                     self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
                     if self.coord_loading[0] == self.number_of_cells:
-                        print('kilme')
-                        '''KILPROC'''
+                        self.code = 'kil'
+
             if self.col_step_3 < self.rest_of_step:
                 self.col_step_3 += 1
                 self.coord_loading = [self.coord_loading[0] + 1, self.coord_loading[1]]
                 if self.coord_loading[0] <= self.number_of_cells:
                     self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
                     if self.coord_loading[0] == self.number_of_cells:
-                        print('kilme')
-                        '''KILPROC'''
+                        self.code = 'kil'
+
+    def color_change(self, sc):
+        if self.code == 'load1':
+            colors_start = [(43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43)]
+            r, g, b = self.colors[0]
+            r1, g1, b1 = colors_start[0]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[0] = r, g, b
+
+            r, g, b = self.colors[1]
+            r1, g1, b1 = colors_start[1]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[1] = r, g, b
+
+            r, g, b = self.colors[2]
+            r1, g1, b1 = colors_start[2]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[2] = r, g, b
+
+            r, g, b = self.colors[3]
+            r1, g1, b1 = colors_start[3]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[3] = r, g, b
+
+            r, g, b = self.colors[4]
+            r1, g1, b1 = colors_start[4]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[4] = r, g, b
+
+            r, g, b = self.colors[5]
+            r1, g1, b1 = colors_start[5]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[5] = r, g, b
+            if sc == 60:
+                self.code = 'load2'
+        if self.code == 'load2':
+            colors_start = [(80, 140, 76), (181, 158, 62), (132, 78, 126), (198, 117, 49), (76, 80, 82),
+                            (255, 255, 255)]
+            r, g, b = self.colors[0]
+            r1, g1, b1 = colors_start[0]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[0] = r, g, b
+
+            r, g, b = self.colors[1]
+            r1, g1, b1 = colors_start[1]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[1] = r, g, b
+
+            r, g, b = self.colors[2]
+            r1, g1, b1 = colors_start[2]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[2] = r, g, b
+
+            r, g, b = self.colors[3]
+            r1, g1, b1 = colors_start[3]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[3] = r, g, b
+
+            r, g, b = self.colors[4]
+            r1, g1, b1 = colors_start[4]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[4] = r, g, b
+
+            r, g, b = self.colors[5]
+            r1, g1, b1 = colors_start[5]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[5] = r, g, b
+        elif self.code == 'kil':
+            colors_end = [(43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43)]
+            r, g, b = self.colors[0]
+            r1, g1, b1 = colors_end[0]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[0] = r, g, b
+
+            r, g, b = self.colors[1]
+            r1, g1, b1 = colors_end[1]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[1] = r, g, b
+
+            r, g, b = self.colors[2]
+            r1, g1, b1 = colors_end[2]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[2] = r, g, b
+
+            r, g, b = self.colors[3]
+            r1, g1, b1 = colors_end[3]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[3] = r, g, b
+
+            r, g, b = self.colors[4]
+            r1, g1, b1 = colors_end[4]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[4] = r, g, b
+
+            r, g, b = self.colors[5]
+            r1, g1, b1 = colors_end[5]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b > b1:
+                b -= 2
+            self.colors[5] = r, g, b
+
+            if self.colors[5] == colors_end[5]:
+                self.code = 'kil_end'
+
+        elif self.code == 'kil_end':
+            colors_start = [(60, 63, 65), (60, 63, 65), (60, 63, 65), (60, 63, 65), (60, 63, 65), (43, 43, 43),
+                            (60, 63, 65)]
+            r, g, b = self.colors[0]
+            r1, g1, b1 = colors_start[0]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[0] = r, g, b
+
+            r, g, b = self.colors[1]
+            r1, g1, b1 = colors_start[1]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[1] = r, g, b
+
+            r, g, b = self.colors[2]
+            r1, g1, b1 = colors_start[2]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[2] = r, g, b
+
+            r, g, b = self.colors[3]
+            r1, g1, b1 = colors_start[3]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[3] = r, g, b
+
+            r, g, b = self.colors[4]
+            r1, g1, b1 = colors_start[4]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[4] = r, g, b
+
+            r, g, b = self.colors[5]
+            r1, g1, b1 = colors_start[5]
+            if r < r1:
+                r += 2
+            if g < g1:
+                g += 2
+            if b < b1:
+                b += 2
+            self.colors[5] = r, g, b
+
+            r, g, b = self.colors[6]
+            r1, g1, b1 = colors_start[6]
+            if r > r1:
+                r -= 2
+            if g > g1:
+                g -= 2
+            if b < b1:
+                b += 2
+            self.colors[6] = r, g, b
+
+            if colors_start[6] == self.colors[6]:
+                self.code = 'end'
+                self.kil()
+
+    def background_change(self):
+        pass
+
+    def kil(self):
+        os.system('PCS.py')
+        '''kil'''
+        pass
 
 
-o = 0
+chang_RGB = 0
 code = 1  # or 2 if that is error
+step_code = 0
 
 board = Board(num_cell_x, num_cell_y, cell_size, shift_left, shift_top)
 k = 0
 running = True
 op = False
 while running:
-    k += 1
+    chang_RGB += 1
+    if step_code < 60:
+        step_code += 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             board.get_click(event.pos)
             op = True
-            o += 1
-            board.loading(o, code)
+            k += 1
+            board.loading(k, code)
+    board.color_change(step_code)
     screen.fill((43, 43, 43))
     board.render(screen)
     pygame.display.flip()

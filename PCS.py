@@ -14,8 +14,9 @@ class Example(QWidget):
         for line in set_list:
             line = line.replace('\n', '', 1)
 
-            if num_line == 1:
-                if line == '800*600' or line == '1024*768' or line == '1280*1024' or line == '1600*800':
+            if num_line == 2:
+                if line == '800*450' or line == '1280*720' or line == '1600*900' or line == '1920*1080' or \
+                            line == '2048*1152' or line == '3840*2160':
                     self.screen_resolution = line.split('*')
                     print(self.screen_resolution)
 
@@ -24,7 +25,7 @@ class Example(QWidget):
 
     def initUI(self):
         self.read()
-
+        print(int(self.screen_resolution[0]), int(self.screen_resolution[1]))
         self.setGeometry(100, 100, int(self.screen_resolution[0]), int(self.screen_resolution[1]))
         self.setWindowTitle('Personal Cloud Sync')
 
