@@ -131,9 +131,11 @@ class Board:
 
         """Интересные факты"""
         # [размер надписи, x0, y0, x1, y1, цвет надписи, цвет фона, время показывания, x смешение, y смещение, текстъ]
-        self.interesting_facts = [[30, 1, 13, 21, 13, (255, 255, 255), (60, 63, 65), 2, 7, 6,
+        self.interesting_facts = [[35, 1, 13, 6, 13, (21, 176, 151), (60, 63, 65), 5, 13, 4,
+                                   'Neuro studio'],
+                                  [30, 1, 13, 21, 13, (255, 131, 96), (60, 63, 65), 2, 6, 6,
                                    'Идея о этом проекте пришла нам еще в середине 2021 года.'],
-                                  [30, 1, 12, 17, 13, (255, 255, 255), (60, 63, 65), 2, 7, 6,
+                                  [30, 1, 12, 17, 13, (212, 180, 131), (60, 63, 65), 5, 7, 6,
                                    'Do you know how many man/hours it took to write',
                                    'this program?']
                                   ]
@@ -239,7 +241,7 @@ class Board:
                         self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
                         self.cell_size), 3)
                 else:
-                    if (self.text_code == 0 or self.text_code == 1):
+                    if 0 <= self.text_code < len(self.interesting_facts):
                         if self.interesting_facts[self.text_code][1] <= i <= self.interesting_facts[self.text_code][
                             3] and self.interesting_facts[self.text_code][2] <= j <= \
                                 self.interesting_facts[self.text_code][4]:
@@ -690,22 +692,30 @@ class Board:
                                                self.interesting_facts[self.text_code][6]
                 r, g, b = self.colors_facts[0]
                 r1, g1, b1 = color_text
-                if r < r1:
-                    r += 2
-                if g < g1:
-                    g += 2
-                if b < b1:
-                    b += 2
+                if self.text_code != 0:
+                    if r < r1:
+                        r += 1
+                    if g < g1:
+                        g += 1
+                    if b < b1:
+                        b += 1
+                else:
+                    if r > r1:
+                        r -= 1
+                    if g < g1:
+                        g += 1
+                    if b < b1:
+                        b += 1
                 self.colors_facts[0] = r, g, b
 
                 r, g, b = self.colors_facts[1]
                 r1, g1, b1 = color_background
                 if r < r1:
-                    r += 2
+                    r += 1
                 if g < g1:
-                    g += 2
+                    g += 1
                 if b < b1:
-                    b += 2
+                    b += 1
                 self.colors_facts[1] = r, g, b
 
                 if self.colors_facts[0] == color_text:
@@ -723,22 +733,30 @@ class Board:
                 colors_end = [(43, 43, 43), (43, 43, 43)]
                 r, g, b = self.colors_facts[0]
                 r1, g1, b1 = colors_end[0]
-                if r > r1:
-                    r -= 2
-                if g > g1:
-                    g -= 2
-                if b > b1:
-                    b -= 2
+                if self.text_code != 0:
+                    if r > r1:
+                        r -= 1
+                    if g > g1:
+                        g -= 1
+                    if b > b1:
+                        b -= 1
+                else:
+                    if r < r1:
+                        r += 1
+                    if g > g1:
+                        g -= 1
+                    if b > b1:
+                        b -= 1
                 self.colors_facts[0] = r, g, b
 
                 r, g, b = self.colors_facts[1]
                 r1, g1, b1 = colors_end[1]
                 if r > r1:
-                    r -= 2
+                    r -= 1
                 if g > g1:
-                    g -= 2
+                    g -= 1
                 if b > b1:
-                    b -= 2
+                    b -= 1
                 self.colors_facts[1] = r, g, b
 
                 if self.colors_facts[0] == colors_end[0]:
@@ -781,10 +799,10 @@ class Board:
                         self.text_code_change = 1
 
                         '''Выбор факта'''
-                        if self.text_code == 0:
-                            self.text_code = 1
-                        else:
+                        if self.text_code == len(self.interesting_facts) - 1:
                             self.text_code = 0
+                        else:
+                            self.text_code += 1
 
                         self.colors_facts[1] = self.interesting_facts[self.text_code][6]
                         self.colors_facts[0] = self.interesting_facts[self.text_code][5]
