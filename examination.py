@@ -130,10 +130,12 @@ class Board:
 
         """Интересные факты"""
         # [размер надписи, x0, y0, x1, y1, цвет надписи, цвет фона, время показывания, x смешение, y смещение, текстъ]
-        self.interesting_facts = [[20, 1, 12, 26, 12, (255, 255, 255), (60, 63, 65), 2, 1, 1,
+        self.interesting_facts = [[20, 1, 13, 26, 13, (255, 255, 255), (60, 63, 65), 2, 1, 1,
                                    'Идея о этом проекте пришла нам еще в середине 2021 года.'],
-                                  [20, 1, 12, 26, 12, (255, 255, 255), (60, 63, 65), 2, 1, 1,
-                                   'А вы заете сколько человеко часов понадобилось чтобы написать эту программу?']]
+                                  [20, 1, 12, 26, 13, (255, 255, 255), (60, 63, 65), 2, 1, 1,
+                                   'А вы заете сколько человеко часов понадобилось чтобы написать эту программу?',
+                                   'А вы заете сколько человеко часов понадобилось чтобы написать эту программу?']
+                                  ]
         self.text_code, self.text_code_start_stop, self.text_code_change = 0, '', 1
         self.colors_facts = [(43, 43, 43), (60, 63, 65)]
         self.counter_fact = 0
@@ -233,24 +235,33 @@ class Board:
                         self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
                         self.cell_size), 3)
                 else:
-                    if (self.text_code == 0 or self.text_code == 1) and \
-                            self.interesting_facts[self.text_code][1] <= i <= self.interesting_facts[self.text_code][3] and self.interesting_facts[self.text_code][2] <= j <= self.interesting_facts[self.text_code][4]:
-
-                        if self.text_code_change == 1 or self.text_code_change == 5 or self.text_code_change == 6 or self.text_code_change == 666:
+                    if (self.text_code == 0 or self.text_code == 1):
+                        if self.interesting_facts[self.text_code][1] <= i <= self.interesting_facts[self.text_code][3] and self.interesting_facts[self.text_code][2] <= j <= self.interesting_facts[self.text_code][4]:
+                            if self.text_code_change == 1 or self.text_code_change == 5 or self.text_code_change == 6 or self.text_code_change == 666:
+                                pygame.draw.rect(screen,
+                                                 self.colors_facts[1],
+                                                 (self.left + self.cell_size * i,
+                                                  self.top + self.cell_size * j,
+                                                  self.cell_size, self.cell_size), 6)
+                                pygame.draw.rect(screen, (43, 43, 43), (
+                                    self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
+                                    self.cell_size), 3)
+                            elif self.text_code_change == 2 or self.text_code_change == 3 or self.text_code_change == 4:
+                                pygame.draw.rect(screen,
+                                                 self.colors_facts[1],
+                                                 (self.left + self.cell_size * i,
+                                                  self.top + self.cell_size * j,
+                                                  self.cell_size, self.cell_size), 0)
+                        else:
                             pygame.draw.rect(screen,
-                                             self.colors_facts[1],
+                                             (60, 63, 65),
                                              (self.left + self.cell_size * i,
                                               self.top + self.cell_size * j,
                                               self.cell_size, self.cell_size), 6)
+
                             pygame.draw.rect(screen, (43, 43, 43), (
                                 self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
                                 self.cell_size), 3)
-                        elif self.text_code_change == 2 or self.text_code_change == 3 or self.text_code_change == 4:
-                            pygame.draw.rect(screen,
-                                             self.colors_facts[1],
-                                             (self.left + self.cell_size * i,
-                                              self.top + self.cell_size * j,
-                                              self.cell_size, self.cell_size), 0)
                     else:
                         pygame.draw.rect(screen,
                                          (60, 63, 65),
