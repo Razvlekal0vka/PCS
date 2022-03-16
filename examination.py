@@ -66,7 +66,12 @@ class Board:
         self.font = pygame.font.SysFont("Comic MS", 20)
         self.coord_loading = [0, 14]
 
-        self.col_examination = 20
+        '--------------------------------------------------------------------------------'
+        '--------------------------------------------------------------------------------'
+        self.col_examination = 1  # Количество проверок
+        '--------------------------------------------------------------------------------'
+        '--------------------------------------------------------------------------------'
+
         self.number_of_cells = self.width - 2
         self.percent, self.rest_of_step = 0, 0
         self.percent_for_step = (self.col_examination / self.number_of_cells) / self.col_examination
@@ -121,6 +126,18 @@ class Board:
             self.board_words[_][3] = name[2][_ - 1]
 
         self.code = 'load1'
+        self.kil_code = ''
+
+        """Интересные факты"""
+        # [размер надписи, x0, y0, x1, y1, цвет надписи, цвет фона, время показывания, x смешение, y смещение, текстъ]
+        self.interesting_facts = [[20, 1, 12, 26, 12, (255, 255, 255), (60, 63, 65), 2, 1, 1,
+                                   'Идея о этом проекте пришла нам еще в середине 2021 года.'],
+                                  [20, 1, 12, 26, 12, (255, 255, 255), (60, 63, 65), 2, 1, 1,
+                                   'А вы заете сколько человеко часов понадобилось чтобы написать эту программу?']]
+        self.text_code, self.text_code_start_stop, self.text_code_change = 0, '', 1
+        self.colors_facts = [(43, 43, 43), (60, 63, 65)]
+        self.counter_fact = 0
+        self.time_between_facts = 2
 
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
@@ -137,6 +154,9 @@ class Board:
                                      (self.left + self.cell_size * i,
                                       self.top + self.cell_size * j,
                                       self.cell_size, self.cell_size), 6)
+                    pygame.draw.rect(screen, (43, 43, 43), (
+                        self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
+                        self.cell_size), 3)
 
                 elif self.board[j][i] == 2:
                     pygame.draw.rect(screen,
@@ -144,6 +164,9 @@ class Board:
                                      (self.left + self.cell_size * i,
                                       self.top + self.cell_size * j,
                                       self.cell_size, self.cell_size), 6)
+                    pygame.draw.rect(screen, (43, 43, 43), (
+                        self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
+                        self.cell_size), 3)
 
 
                 elif self.board[j][i] == 3:
@@ -205,15 +228,39 @@ class Board:
                     self.font = pygame.font.Font(None, size)
                     text = self.font.render(str(self.board_words[i][j]), True, self.colors[5])
                     screen.blit(text, (cell_rect.left + shift_left, cell_rect.top + shift_down))
-                else:
-                    pygame.draw.rect(screen,
-                                     (60, 63, 65),
-                                     (self.left + self.cell_size * i,
-                                      self.top + self.cell_size * j,
-                                      self.cell_size, self.cell_size), 6)
 
-                pygame.draw.rect(screen, (43, 43, 43), (
-                    self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size, self.cell_size), 3)
+                    pygame.draw.rect(screen, (43, 43, 43), (
+                        self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
+                        self.cell_size), 3)
+                else:
+                    if (self.text_code == 0 or self.text_code == 1) and \
+                            self.interesting_facts[self.text_code][1] <= i <= self.interesting_facts[self.text_code][3] and self.interesting_facts[self.text_code][2] <= j <= self.interesting_facts[self.text_code][4]:
+
+                        if self.text_code_change == 1 or self.text_code_change == 5 or self.text_code_change == 6 or self.text_code_change == 666:
+                            pygame.draw.rect(screen,
+                                             self.colors_facts[1],
+                                             (self.left + self.cell_size * i,
+                                              self.top + self.cell_size * j,
+                                              self.cell_size, self.cell_size), 6)
+                            pygame.draw.rect(screen, (43, 43, 43), (
+                                self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
+                                self.cell_size), 3)
+                        elif self.text_code_change == 2 or self.text_code_change == 3 or self.text_code_change == 4:
+                            pygame.draw.rect(screen,
+                                             self.colors_facts[1],
+                                             (self.left + self.cell_size * i,
+                                              self.top + self.cell_size * j,
+                                              self.cell_size, self.cell_size), 0)
+                    else:
+                        pygame.draw.rect(screen,
+                                         (60, 63, 65),
+                                         (self.left + self.cell_size * i,
+                                          self.top + self.cell_size * j,
+                                          self.cell_size, self.cell_size), 6)
+
+                        pygame.draw.rect(screen, (43, 43, 43), (
+                            self.left + self.cell_size * i, self.top + self.cell_size * j, self.cell_size,
+                            self.cell_size), 3)
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
@@ -243,7 +290,9 @@ class Board:
                 if self.coord_loading[0] <= self.number_of_cells:
                     self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
                 if self.percent >= 1:
-                    self.code = 'kil'
+                    self.kil_code = 'kil'
+                    self.text_code_start_stop = 'kil'
+                    self.text_code_change = 666
 
                 self.percent -= self.percent_for_step
                 self.percent_for_step += percent_for_step
@@ -253,7 +302,9 @@ class Board:
             if self.coord_loading[0] <= self.number_of_cells:
                 self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
                 if self.coord_loading[0] == self.number_of_cells:
-                    self.code = 'kil'
+                    self.kil_code = 'kil'
+                    self.text_code_start_stop = 'kil'
+                    self.text_code_change = 666
 
         elif self.col_examination < self.number_of_cells:
             self.percent = self.number_of_cells // self.col_examination
@@ -263,7 +314,9 @@ class Board:
                 if self.coord_loading[0] <= self.number_of_cells:
                     self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
                     if self.coord_loading[0] == self.number_of_cells:
-                        self.code = 'kil'
+                        self.kil_code = 'kil'
+                        self.text_code_start_stop = 'kil'
+                        self.text_code_change = 666
 
             if self.col_step_3 < self.rest_of_step:
                 self.col_step_3 += 1
@@ -271,10 +324,12 @@ class Board:
                 if self.coord_loading[0] <= self.number_of_cells:
                     self.board[self.coord_loading[1]][self.coord_loading[0]] = cod_examination
                     if self.coord_loading[0] == self.number_of_cells:
-                        self.code = 'kil'
+                        self.kil_code = 'kil'
+                        self.text_code_start_stop = 'kil'
+                        self.text_code_change = 666
 
     def color_change(self, sc):
-        if self.code == 'load1':
+        if self.code == 'load1' and sc >= 60:
             colors_start = [(43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43)]
             r, g, b = self.colors[0]
             r1, g1, b1 = colors_start[0]
@@ -335,7 +390,7 @@ class Board:
             if b < b1:
                 b += 2
             self.colors[5] = r, g, b
-            if sc == 60:
+            if sc >= 90:
                 self.code = 'load2'
         if self.code == 'load2':
             colors_start = [(80, 140, 76), (181, 158, 62), (132, 78, 126), (198, 117, 49), (76, 80, 82),
@@ -399,7 +454,12 @@ class Board:
             if b < b1:
                 b += 2
             self.colors[5] = r, g, b
-        elif self.code == 'kil':
+
+            if self.colors[3] == colors_start[3]:
+                self.code = 'kil'
+                self.text_code_start_stop = 'start'
+
+        elif self.kil_code == 'kil' and self.code == 'kil':
             colors_end = [(43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43), (43, 43, 43)]
             r, g, b = self.colors[0]
             r1, g1, b1 = colors_end[0]
@@ -549,8 +609,166 @@ class Board:
         '''kil'''
         pass
 
+    def change_of_interesting_facts(self, ch_f):
+        if self.text_code_start_stop != 'kil' and self.text_code_start_stop == 'start':
+            if self.text_code_change == 1:
+                print('1')
+                colors_start = [(43, 43, 43), (43, 43, 43)]
+                r, g, b = self.colors_facts[0]
+                r1, g1, b1 = colors_start[0]
+                if r > r1:
+                    r -= 1
+                if g > g1:
+                    g -= 1
+                if b > b1:
+                    b -= 1
+                self.colors_facts[0] = r, g, b
 
-chang_RGB = 0
+                r, g, b = self.colors_facts[1]
+                r1, g1, b1 = colors_start[1]
+                if r > r1:
+                    r -= 1
+                if g > g1:
+                    g -= 1
+                if b > b1:
+                    b -= 1
+                self.colors_facts[1] = r, g, b
+                print(self.colors_facts[0], colors_start[0], self.colors_facts[1], colors_start[1])
+                if self.colors_facts[1] == colors_start[1]:
+                    self.text_code_change = 2
+
+            elif self.text_code_change == 2:
+                print('2')
+                color_text, color_background = self.interesting_facts[self.text_code][5], \
+                                               self.interesting_facts[self.text_code][6]
+                print(color_text, color_background)
+                r, g, b = self.colors_facts[0]
+                r1, g1, b1 = color_text
+                if r < r1:
+                    r += 2
+                if g < g1:
+                    g += 2
+                if b < b1:
+                    b += 2
+                self.colors_facts[0] = r, g, b
+
+                r, g, b = self.colors_facts[1]
+                r1, g1, b1 = color_background
+                if r < r1:
+                    r += 2
+                if g < g1:
+                    g += 2
+                if b < b1:
+                    b += 2
+                self.colors_facts[1] = r, g, b
+
+                if self.colors_facts[0] == color_text:
+                    self.text_code_change = 3
+
+            elif self.text_code_change == 3:
+                print('3')
+                if ch_f == 60:
+                    if self.counter_fact < self.interesting_facts[self.text_code][7]:
+                        self.counter_fact += 1
+                    else:
+                        self.counter_fact = 0
+                        self.text_code_change = 4
+
+            elif self.text_code_change == 4:
+                print('4')
+                colors_end = [(43, 43, 43), (43, 43, 43)]
+                r, g, b = self.colors_facts[0]
+                r1, g1, b1 = colors_end[0]
+                if r > r1:
+                    r -= 2
+                if g > g1:
+                    g -= 2
+                if b > b1:
+                    b -= 2
+                self.colors_facts[0] = r, g, b
+
+                r, g, b = self.colors_facts[1]
+                r1, g1, b1 = colors_end[1]
+                if r > r1:
+                    r -= 2
+                if g > g1:
+                    g -= 2
+                if b > b1:
+                    b -= 2
+                self.colors_facts[1] = r, g, b
+
+                if self.colors_facts[1] == colors_end[1]:
+                    self.text_code_change = 5
+
+            elif self.text_code_change == 5:
+                print('5')
+                colors_start = [(43, 43, 43), (60, 63, 65)]
+                r, g, b = self.colors_facts[0]
+                r1, g1, b1 = colors_start[0]
+                if r < r1:
+                    r += 1
+                if g < g1:
+                    g += 1
+                if b < b1:
+                    b += 1
+                self.colors_facts[0] = r, g, b
+
+                r, g, b = self.colors_facts[1]
+                r1, g1, b1 = colors_start[1]
+                if r < r1:
+                    r += 1
+                if g < g1:
+                    g += 1
+                if b < b1:
+                    b += 1
+                self.colors_facts[1] = r, g, b
+
+                if colors_start[1] == self.colors_facts[1]:
+                    self.text_code_change = 6
+
+            elif self.text_code_change == 6:
+                print('6')
+                if ch_f == 60:
+                    if self.counter_fact < self.time_between_facts:
+                        self.counter_fact += 1
+                    else:
+                        self.counter_fact = 0
+                        self.text_code_change = 1
+
+                        '''Выбор факта'''
+                        if self.text_code == 0:
+                            self.text_code = 1
+                        else:
+                            self.text_code = 0
+
+                        self.colors_facts[1] = self.interesting_facts[self.text_code][6]
+                        self.colors_facts[0] = self.interesting_facts[self.text_code][5]
+
+            elif self.text_code_change == 666:
+                print('666')
+                colors_start = [(43, 43, 43), (60, 63, 65)]
+                r, g, b = self.colors_facts[0]
+                r1, g1, b1 = colors_start[0]
+                if r < r1:
+                    r += 2
+                if g < g1:
+                    g += 2
+                if b < b1:
+                    b += 2
+                self.colors_facts[0] = r, g, b
+
+                r, g, b = self.colors_facts[1]
+                r1, g1, b1 = colors_start[1]
+                if r < r1:
+                    r += 2
+                if g < g1:
+                    g += 2
+                if b < b1:
+                    b += 2
+                self.colors_facts[1] = r, g, b
+
+
+chang_fact = 0
 code = 1  # or 2 if that is error
 step_code = 0
 
@@ -559,8 +777,8 @@ k = 0
 running = True
 op = False
 while running:
-    chang_RGB += 1
-    if step_code < 60:
+    chang_fact += 1
+    if step_code < 180:
         step_code += 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -570,6 +788,9 @@ while running:
             op = True
             k += 1
             board.loading(k, code)
+    if chang_fact % 61 == 0:
+        chang_fact = 0
+    board.change_of_interesting_facts(chang_fact)
     board.color_change(step_code)
     screen.fill((43, 43, 43))
     board.render(screen)
