@@ -167,7 +167,7 @@ class Example(QWidget):
         settings.append('True')
         settings.append(self.permission)
         settings.append(self.permission_1)
-        settings_file = open('data/settings.txt', 'w')
+        settings_file = open('../data/settings.txt', 'w')
         for elem_num in range(len(settings)):
             if elem_num == len(settings) - 1:
                 settings_file.write(f'''{settings[elem_num]}''')
@@ -182,7 +182,7 @@ code = 'start'
 lines = []
 if code == 'start':
     try:
-        set_list = open('data/settings.txt', 'r')
+        set_list = open('../data/settings.txt', 'r')
         num_line = 0
         for line in set_list:
             line = line.replace('\n', '', 1)

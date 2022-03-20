@@ -4,7 +4,7 @@ import pygame
 
 set_data = []
 num_cell_x, num_cell_y, cell_size, shift_left, shift_top, size = 0, 0, 0, 0, 0, 0
-set_list = open('data/settings.txt', 'r')
+set_list = open('../data/settings.txt', 'r')
 num_line = 0
 for line in set_list:
     line = line.replace('\n', '', 1)

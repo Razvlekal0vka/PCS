@@ -9,7 +9,7 @@ class Example(QWidget):
         self.initUI()
 
     def read(self):
-        set_list = open('data/settings.txt', 'r')
+        set_list = open('../data/settings.txt', 'r')
         num_line = 0
         for line in set_list:
             line = line.replace('\n', '', 1)
