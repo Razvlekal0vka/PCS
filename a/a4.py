@@ -1,3 +1,5 @@
+import math
+
 import numpy
 
 x1, y1, z1 = list(map(int, input().split()))
@@ -18,8 +20,8 @@ Matrix = numpy.matrix(matrix1)
 D = numpy.linalg.det(Matrix)
 print(D)
 
-r =
+r = math.sqrt((s1[1] * s2[2] - s1[2] * s1[1]) ** 2 + (s1[0] * s2[2] - s1[2] * s2[0]) ** 2 + (s1[0] * s2[1] - s2[0] * s1[1]) ** 2)
 print(r)
 
-min_d = abs(D) / abs(r)
+min_d = round(abs(D) / abs(r), 7)
 print(min_d)
