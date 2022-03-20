@@ -1,7 +1,12 @@
+import sys
 
+lines = []
+for l in sys.stdin:
+    l = l.replace('\n', '')
+    lines.append(l)
 
-n, m = list(map(int, input().split()))
-com = input()
+n, m = list(map(int, lines[0].split()))
+com = lines[1]
 x, y = 0, 0
 k = 0
 while k < m:
@@ -19,3 +24,5 @@ while k < m:
         else:
             break
 print(x, y)
+
+# прошла первый и шестой
