@@ -1,6 +1,5 @@
 import subprocess
 import time
-
 import psutil
 
 
@@ -15,7 +14,7 @@ def kill_proc_tree(pid, including_parent=True):
         parent.wait(5)
 
 
-process = subprocess.Popen(['python.exe', "start_box.py"])
+process = subprocess.Popen(['python.exe', "examination.py"])
 
 time.sleep(10)
 
