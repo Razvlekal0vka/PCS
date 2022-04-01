@@ -1,7 +1,3 @@
-print(f'''sl 12 - {77 * 12 / 60}''')
-print(f'''sl 15 - {77 * 15 / 60}''')
-print(f'''sl 16 - {77 * 16 / 60}''')
-print(f'''sl 19 - {77 * 19 / 60}''')
-print(f'''sl 23 - {77 * 23 / 60}''')
-print(f'''sd - {77 * 9 / 60}''')
-print(f'''r - {77 * 70 / 60}''')
+import keyboard
+while True:
+    keyboard.on_release(lambda e: print(e.name))
