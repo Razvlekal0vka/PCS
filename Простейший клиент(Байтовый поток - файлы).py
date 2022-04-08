@@ -17,7 +17,7 @@ f = open(f_name, "rb")
 # читаем строку
 bite_line = f.read(1024)
 
-while (bite_line):
+while bite_line:
     # отправляем строку на сервер
     sock.send(bite_line)
     bite_line = f.read(1024)
