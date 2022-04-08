@@ -20,12 +20,26 @@ def start(update, context):
         "Привет! Я PCSbot, я могу помочь вам с регистрацией и её подтверждением. Также вы сможете востановить через"
         " меня пароль от своей учетной записи, загружать и скачавать файлы, предоставлять доступ к ним и смотреть"
         " древо своих данных")
-    update.message.reply_text('')
-    update.message.reply_text('help - выведет вам все доступные команды')
+    update.message.reply_text('/help - выведет вам все доступные команды')
 
 
 def help(update, context):
-    update.message.reply_text()
+    update.message.reply_text('/registration - регистрация нового аккаунта')
+    update.message.reply_text('/password_recovery - восстановление пароля')
+    update.message.reply_text('/account_deleting - удаление аккаунта')
+    update.message.reply_text('/help - выведет вам все доступные команды')
+
+
+def registration(update, context):
+    update.message.reply_text('registration')
+
+
+def password_recovery(update, context):
+    update.message.reply_text('password_recovery')
+
+
+def account_deleting(update, context):
+    update.message.reply_text('account_deleting')
 
 
 def main():
@@ -34,6 +48,9 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("registration", registration))
+    dp.add_handler(CommandHandler("password_recovery", password_recovery))
+    dp.add_handler(CommandHandler("account_deleting", account_deleting))
     dp.add_handler(CommandHandler("help", help))
 
     text_handler = MessageHandler(Filters.text, echo)
