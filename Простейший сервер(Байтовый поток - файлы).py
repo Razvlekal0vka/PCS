@@ -21,9 +21,9 @@ while True:
     name_f = (conn.recv(1024)).decode('UTF-8')
 
     # открываем файл в режиме байтовой записи в отдельной папке 'sent'
-    f = open('sent/' + name_f, 'wb')
 
     while True:
+        f = open(name_f, 'wb')
 
         # получаем байтовые строки
         bite_line = conn.recv(1024)
@@ -34,6 +34,6 @@ while True:
         if not bite_line:
             break
 
-    f.close()
+        f.close()
     conn.close()
     print('File received')
