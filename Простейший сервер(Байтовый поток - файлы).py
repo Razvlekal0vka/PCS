@@ -3,7 +3,7 @@ import socket
 # создаём сокет и связываем его с IP-адресом и портом
 
 sock = socket.socket()
-ip = '26.175.31.63'
+ip = '26.43.19.188'
 port = 53210
 sock.bind((ip, port))
 
@@ -23,7 +23,7 @@ while True:
     # открываем файл в режиме байтовой записи в отдельной папке 'sent'
 
     while True:
-        f = open(name_f, 'wb')
+        f = open('downloads/' + name_f, 'wb')
 
         # получаем байтовые строки
         bite_line = conn.recv(1024)
