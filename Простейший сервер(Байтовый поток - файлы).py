@@ -3,7 +3,7 @@ import socket
 # создаём сокет и связываем его с IP-адресом и портом
 
 sock = socket.socket()
-ip = "localhost"
+ip = '26.43.19.188'
 port = 9999
 sock.bind((ip, port))
 
