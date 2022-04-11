@@ -3,8 +3,8 @@ import socket
 # создаём сокет и связываем его с IP-адресом и портом
 
 sock = socket.socket()
-ip = '26.43.19.188'
-port = 53210
+ip = "localhost"
+port = 9999
 sock.bind((ip, port))
 
 # сервер ожидает передачи информации
@@ -20,10 +20,10 @@ while True:
     # получаем название файла
     name_f = (conn.recv(1024)).decode('UTF-8')
 
-    # открываем файл в режиме байтовой записи в отдельной папке 'sent'
+    # открываем файл в режиме байтовой записи в отдельной папке 'data'
+    f = open('data/' + name_f, 'wb')
 
     while True:
-        f = open('downloads/' + name_f, 'wb')
 
         # получаем байтовые строки
         bite_line = conn.recv(1024)
@@ -34,7 +34,7 @@ while True:
         if not bite_line:
             break
 
-        f.close()
-
+    f.close()
     conn.close()
+
     print('File received')
