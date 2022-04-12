@@ -1,7 +1,7 @@
 import socket
 
-ip = '26.43.19.188'
-port = 9999
+ip = '26.137.155.119'
+port = 53210
 
 # создаём сокет для подключения
 sock = socket.socket()

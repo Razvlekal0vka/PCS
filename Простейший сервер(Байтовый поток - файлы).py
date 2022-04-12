@@ -4,7 +4,7 @@ import socket
 
 sock = socket.socket()
 ip = '26.43.19.188'
-port = 9999
+port = 53210
 sock.bind((ip, port))
 
 # сервер ожидает передачи информации
@@ -21,7 +21,7 @@ while True:
     name_f = (conn.recv(1024)).decode('UTF-8')
 
     # открываем файл в режиме байтовой записи в отдельной папке 'data'
-    f = open('data/' + name_f, 'wb')
+    f = open(name_f, 'wb')
 
     while True:
 
