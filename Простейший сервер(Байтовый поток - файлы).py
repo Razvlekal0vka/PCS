@@ -19,7 +19,7 @@ while True:
 
     # получаем название файла
     name_f = (conn.recv(1024)).decode('UTF-8')
-    name_f = name_f[name_f.rfind('\\') + 1:]
+    name_f = name_f[name_f.rfind('/') + 1:]
 
     # открываем файл в режиме байтовой записи (в отдельной папке 'data')
     f = open(name_f, 'wb')
