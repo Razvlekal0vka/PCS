@@ -3,7 +3,7 @@ import socket
 # создаём сокет и связываем его с IP-адресом и портом
 
 sock = socket.socket()
-ip = '26.137.155.119'
+ip = '26.43.19.188'
 port = 53210
 sock.bind((ip, port))
 
@@ -19,9 +19,10 @@ while True:
 
     # получаем название файла
     name_f = (conn.recv(1024)).decode('UTF-8')
+    name_f = name_f[name_f.rfind('\\') + 1:]
 
-    # открываем файл в режиме байтовой записи в отдельной папке 'data'
-    f = open('data/' + name_f, 'wb')
+    # открываем файл в режиме байтовой записи (в отдельной папке 'data')
+    f = open(name_f, 'wb')
 
     while True:
 
