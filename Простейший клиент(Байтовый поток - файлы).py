@@ -1,6 +1,6 @@
 import socket
 
-ip = '26.137.155.119'
+ip = '26.43.19.188'
 port = 53210
 
 # создаём сокет для подключения
@@ -9,10 +9,10 @@ sock.connect((ip, port))
 
 # запрашиваем имя файла и отправляем серверу
 f_name = input('File to send: ')
-sock.send((bytes(f_name, encoding='UTF-8')))
+sock.send((bytes(rf'{f_name}', encoding='UTF-8')))
 
 # открываем файл в режиме байтового чтения
-f = open(f_name, "rb")
+f = open(rf'{f_name}'.replace('\\', '/'), "rb")
 
 # читаем строку
 bite_line = f.read(1024)
