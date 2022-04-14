@@ -31,5 +31,4 @@ def send_files_with_open_file_dialog_window(ip, port):
         sock.close()
 
 
-send_files_with_file_dialog_window(ip, port)
-
+send_files_with_open_file_dialog_window(ip, port)
