@@ -1,0 +1,3 @@
+socket.gethostbyname(socket.gethostname()) # локальный
+
+IP = requests.get('https://api.ipify.org/%27).text # глобальный

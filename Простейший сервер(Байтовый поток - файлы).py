@@ -38,4 +38,4 @@ while True:
     f.close()
     conn.close()
 
-    print('File received')
+    print(f'{name_f} received')
