@@ -5,7 +5,7 @@ ip = '26.43.19.188'
 port = 53210
 
 
-def send_files_with_file_dialog_window(ip, port):
+def send_files_with_open_file_dialog_window(ip, port):
     files = filedialog.askopenfilenames()
 
     for file in files:
