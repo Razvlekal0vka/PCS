@@ -9,9 +9,9 @@ def run_server(port=53210):
     cid = 0
     while True:
         client_sock = accept_client_conn(serv_sock, cid)
-        t = threading.Thread(target=serve_client,
+        thread = threading.Thread(target=serve_client,
                              args=(client_sock, cid))
-        t.start()  # Запуск нового потока
+        thread.start()  # Запуск нового потока
         cid += 1
 
 
@@ -36,7 +36,7 @@ def create_serv_sock(serv_port):
     serv_sock = socket.socket(socket.AF_INET,
                               socket.SOCK_STREAM,
                               proto=0)
-    serv_sock.bind(('', serv_port))
+    serv_sock.bind(('127.0.0.1', 53210))
     serv_sock.listen()
     return serv_sock
 
@@ -80,4 +80,4 @@ def write_response(client_sock, response, cid):
 
 
 if __name__ == '__main__':
-    run_server(port=int(5000))
+    run_server(port=int(53210))
