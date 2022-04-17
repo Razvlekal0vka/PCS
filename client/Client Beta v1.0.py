@@ -1,3 +1,4 @@
+import os
 import socket
 from tkinter import filedialog, Tk
 
@@ -35,7 +36,6 @@ def send_file(file, address):
 
 
 def send_files_with_open_file_dialog_window(address):
-
     # Прячем главное окно tkinter
     root = Tk()
     root.withdraw()
