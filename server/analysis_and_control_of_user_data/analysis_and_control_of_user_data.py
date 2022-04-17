@@ -15,5 +15,4 @@ class new_user(Resource):
             mail=args["mail"],
             activation_code=args["activation_code"]
         )
-        print(user)
         return jsonify('account created successfully')
