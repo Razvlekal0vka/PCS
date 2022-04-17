@@ -80,4 +80,4 @@ def write_response(client_sock, response, cid):
 
 
 if __name__ == '__main__':
-    run_server(port=int(5000))
+    run_server(port=int(53210))
