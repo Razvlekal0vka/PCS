@@ -28,15 +28,16 @@ data = [{'activation_code': code,
          'id': id}
         ]
 
+with open('data/activation_keys.csv') as File:
+    reader = csv.reader(File, delimiter=';', quotechar=',',
+                        quoting=csv.QUOTE_MINIMAL)
+    for row in reader:
+        if row != ['activation_code', 'start_of_activation', 'date_of_the_end_activation', 'id'] and row[3] != id:
+            data.append({'activation_code': row[0], 'start_of_activation': row[1], 'date_of_the_end_activation': row[2], 'id': row[3]})
+
 with open('data/activation_keys.csv', 'w', newline="") as csvfile:
     fieldnames = ['activation_code', 'start_of_activation', 'date_of_the_end_activation', 'id']
     writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
     writer.writeheader()
     writer.writerows(data)
 print("writing complete")
-
-with open('data/activation_keys.csv') as File:
-    reader = csv.reader(File, delimiter=';', quotechar=',',
-                        quoting=csv.QUOTE_MINIMAL)
-    for row in reader:
-        print(row)
