@@ -3,10 +3,12 @@ from requests import get, delete, post
 # print(get('http://localhost:5000/api/v2/users').json())
 
 # wrong keys
-print(post('http://localhost:5000/api/user_verification/new_user', json={'team_leader': 1,
-                                                                         'work_size': 10,
-                                                                         'collaborators': 'collaborators1',
-                                                                         'is_finished': False}).json())
+print(post('http://localhost:5000/api/user_verification/new_user', json={'name': 'test',
+                                                                         'username': 'test',
+                                                                         'password': 'test',
+                                                                         'phone': 'test',
+                                                                         'mail': 'test',
+                                                                         'activation_code': 'test'}).json())
 
 # print(post('http://localhost:5000/api/v2/users', json={'name': 'Oleg',
 # 'surname': 'Zhdanov',

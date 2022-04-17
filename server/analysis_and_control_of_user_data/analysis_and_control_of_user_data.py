@@ -7,17 +7,13 @@ from users_parser import parser
 class new_user(Resource):
     def post(self):
         args = parser.parse_args()
-        session = db_session.create_session()
         user = User(
-            surname=args["surname"],
             name=args["name"],
-            age=args["age"],
-            position=args["position"],
-            speciality=args["speciality"],
-            address=args["address"],
-            email=args["email"],
-            hashed_password=args["hashed_password"]
+            username=args["username"],
+            password=args["password"],
+            speciality=args["phone"],
+            address=args["mail"],
+            email=args["activation_code"]
         )
-        session.add(user)
-        session.commit()
+        print(user)
         return jsonify('account created successfully')
