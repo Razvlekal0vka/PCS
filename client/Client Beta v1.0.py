@@ -4,12 +4,14 @@ from tkinter import filedialog, Tk
 ip = '26.43.19.188'
 port = 53210
 
+address = ip, port
 
-def send_file(file):
+
+def send_file(file, address):
     try:
         # создаём сокет для подключения
         sock = socket.socket()
-        sock.connect((ip, port))
+        sock.connect(address)
 
         # запрашиваем имя файла и отправляем серверу
         sock.send((bytes(file, encoding='UTF-8')))
@@ -32,7 +34,7 @@ def send_file(file):
         print('Связанная ошибка с функцией /send_file\\', exception)
 
 
-def send_files_with_open_file_dialog_window(ip, port):
+def send_files_with_open_file_dialog_window(address):
 
     # Прячем главное окно tkinter
     root = Tk()
@@ -42,10 +44,10 @@ def send_files_with_open_file_dialog_window(ip, port):
 
     try:
         for file in files:
-            send_file(file)
+            send_file(file, address)
 
     except Exception as exception:
         print('Связанная ошибка с функцией /send_files_with_open_file_dialog_window\\', exception)
 
 
-send_files_with_open_file_dialog_window(ip, port)
+send_files_with_open_file_dialog_window(address)

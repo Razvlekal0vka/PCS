@@ -1,4 +1,3 @@
-import sys
 import socket
 import selectors
 import types
@@ -37,7 +36,7 @@ def service_connection(key, mask):
             events = sel.select(timeout=None)
             for key, mask in events:
                 if key.data is None:
-                    accept_wrapper(key.fileobj)
+                    accept_wrapper(sock)
                 else:
                     service_connection(key, mask)
     except KeyboardInterrupt:
@@ -46,7 +45,7 @@ def service_connection(key, mask):
         sel.close()
 
 
-host, port = '127.0.0.1', 5000
+host, port = '127.0.0.1', 53210
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 lsock.bind((host, port))
 lsock.listen()
