@@ -1,4 +1,3 @@
-import os
 import socket
 
 # создаём сокет и связываем его с IP-адресом и портом
@@ -23,7 +22,7 @@ while True:
     name_f = name_f[name_f.rfind('/') + 1:]
 
     # открываем файл в режиме байтовой записи (в отдельной папке 'downloads')
-    f = open('../downloads/' + name_f, 'wb')
+    f = open(name_f, 'wb')
 
     while True:
 
