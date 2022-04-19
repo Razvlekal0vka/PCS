@@ -1,2 +1,1 @@
-id;name;username;password;phone;mail;activation_code
-1;test;;;;;;;;
+id;name;username;password;phone;email;activation_code

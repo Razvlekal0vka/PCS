@@ -1,25 +1,20 @@
 from requests import get, delete, post
 
-# print(get('http://localhost:5000/api/v2/users').json())
-
-# wrong keys
-print(post('http://localhost:5000/api/user_verification/new_user', json={'name': 'test',
-                                                                         'username': 'test',
-                                                                         'password': 'test',
-                                                                         'phone': 'test',
-                                                                         'mail': 'test',
-                                                                         'activation_code': 'test'}).json())
-
-# print(post('http://localhost:5000/api/v2/users', json={'name': 'Oleg',
-# 'surname': 'Zhdanov',
-# 'age': 18,
-# 'position': "student",
-# 'speciality': "student",
-# 'address': 'moscow',
-# 'email': 'helge2003@yandex.ru',
-# 'hashed_password': 'asd12easdsdf1112'}).json())
-# print(get('http://localhost:5000/api/v2/users/7').json())
-# print(delete('http://localhost:5000/api/v2/users/7').json())
-# wrong id
-# print(delete('http://localhost:5000/api/v2/users/777').json())
-# print(get('http://localhost:5000/api/v2/users').json())
+# регистрация нового пользователя
+print(post('http://localhost:5000/api/user_verification/new_user', json={'name': 'Razvlekal0vka',
+                                                                         'username': 'lbezzubka',
+                                                                         'password': 'mkdog59',
+                                                                         'phone': '+7(6866)-666-66-66',
+                                                                         'email': '668@gmail.com',
+                                                                         'activation_code': ''}).json())
+# this login is already taken - этот логин уже кем-то занят
+# this phone has already been used during registration - этот телефон уже использовался при регистрации
+# this email address was already used during registration - эта почта уже использовалась при регистрации
+# this activation code has already been used during registration
+# invalid characters in name - недопустимое имя
+# invalid name length - недопустимая длина имени
+# invalid characters in username - недопустимый логин
+# invalid username length - недопустимая длина логина
+# invalid characters in password - недопустимый пароль
+# invalid username password - недопустимая длина пароля
+# account created successfully - аккаунт успешно зарегистрирован
