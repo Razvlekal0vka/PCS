@@ -17,7 +17,7 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'name':
 # invalid username length - недопустимая длина логина
 # invalid characters in password - недопустимый пароль
 # invalid username password - недопустимая длина пароля
-# account created successfully - аккаунт успешно зарегистрирован
-# account created successfully - аккаунт успешно зарегистрирован
+# account successfully created with activation code - аккаунт успешно зарегистрирован с кодом активации
+# account successfully created without activation code - аккаунт успешно зарегистрирован без кода активации
 
 """=================================================================================================================="""
