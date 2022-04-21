@@ -2,11 +2,11 @@ from requests import get, delete, post
 
 # регистрация нового пользователя
 print(post('http://localhost:5000/api/user_verification/new_user', json={'name': 'Razvlekal0vka',
-                                                                         'username': 'lbezzubka',
+                                                                         'username': 'bezzubka',
                                                                          'password': 'mkdog59',
-                                                                         'phone': '+7(6866)-666-66-66',
-                                                                         'email': '668@gmail.com',
-                                                                         'activation_code': ''}).json())
+                                                                         'phone': '+7(866)-666-66-66',
+                                                                         'email': '66@gmail.com',
+                                                                         'activation_code': 'jjOCo2c$ZfgJ'}).json())
 # this login is already taken - этот логин уже кем-то занят
 # this phone has already been used during registration - этот телефон уже использовался при регистрации
 # this email address was already used during registration - эта почта уже использовалась при регистрации
@@ -18,3 +18,6 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'name':
 # invalid characters in password - недопустимый пароль
 # invalid username password - недопустимая длина пароля
 # account created successfully - аккаунт успешно зарегистрирован
+# account created successfully - аккаунт успешно зарегистрирован
+
+"""=================================================================================================================="""
