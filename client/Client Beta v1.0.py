@@ -1,4 +1,3 @@
-import os
 import socket
 from tkinter import filedialog, Tk
 
