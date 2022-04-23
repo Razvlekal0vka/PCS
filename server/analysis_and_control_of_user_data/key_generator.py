@@ -4,9 +4,11 @@ import csv
 
 code_length = 12  # only 12
 """==========================================="""
-id = '' # '' или номер id
+id = ''  # '' или номер id
 activation_date = 'now'  # 'now' or '05.08.2020'
 end_date_of_work = '05.08.2030'
+
+type = 'premium'
 """==========================================="""
 letters = '0123456789AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz#@&%$'
 code = ''
@@ -14,22 +16,30 @@ code = ''
 data = []
 codes = []
 
+
+def gen_code(type):
+    key = ''
+    if type == 'premium':
+        key += 'P0'
+    for n in range(10):
+        s = str(letters[random.randint(0, len(letters) - 1)])
+        key += s
+    return key
+
+
 with open('data/activation_keys.csv') as File:
     reader = csv.reader(File, delimiter=';', quotechar=',',
                         quoting=csv.QUOTE_MINIMAL)
     for row in reader:
         if row != ['activation_code', 'start_of_activation', 'date_of_the_end_activation', 'id']:
-            data.append({'activation_code': row[0], 'start_of_activation': row[1], 'date_of_the_end_activation': row[2], 'id': row[3]})
+            data.append({'activation_code': row[0], 'start_of_activation': row[1], 'date_of_the_end_activation': row[2],
+                         'id': row[3]})
             codes.append(row[0])
-for n in range(12):
-    s = str(letters[random.randint(0, len(letters) - 1)])
-    code += s
+
+code = gen_code(type)
 
 while code in codes:
-    code = ''
-    for n in range(12):
-        s = str(letters[random.randint(0, len(letters) - 1)])
-        code += s
+    code = gen_code(type)
 
 current_datetime = datetime.now()
 print(f'user id - {id}')
@@ -41,9 +51,9 @@ print(f'activation_date - {activation_date}')
 print(f'end_date_of_work - {end_date_of_work}')
 
 data.append({'activation_code': code,
-         'start_of_activation': activation_date,
-         'date_of_the_end_activation': end_date_of_work,
-         'id': id})
+             'start_of_activation': activation_date,
+             'date_of_the_end_activation': end_date_of_work,
+             'id': id})
 
 with open('data/activation_keys.csv', 'w', newline="") as csvfile:
     fieldnames = ['activation_code', 'start_of_activation', 'date_of_the_end_activation', 'id']
