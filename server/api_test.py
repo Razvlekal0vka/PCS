@@ -6,24 +6,24 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'name':
                                                                          'password': 'mkdog59',
                                                                          'phone': '+7(866)-666-66-66',
                                                                          'email': '66@gmail.com',
-                                                                         'activation_code': 'jjOCo2c$ZfgJ'}).json())
+                                                                         'activation_code': 'P0ZWm%koI8A@'}).json())
 
 # докидка кода активации
-print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'name': '',
-                                                                                          'username': 'bezzubka',
-                                                                                          'password': 'mkdog59',
-                                                                                          'phone': '',
-                                                                                          'email': '',
-                                                                                          'activation_code': 'jjOCo2c$ZfgJ'}).json())
+#print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'name': '',
+#                                                                                          'username': 'bezzubka',
+#                                                                                          'password': 'mkdog59',
+#                                                                                          'phone': '',
+#                                                                                          'email': '',
+#                                                                                          'activation_code': 'Pxj@62lCu6vw'}).json())
 
 # может ли пользователь пользоваться сервисом
 """"еще не работает"""
-print(post('http://localhost:5000/api/user_verification/service_access', json={'name': '',
-                                                                                          'username': 'bezzubka',
-                                                                                          'password': 'mkdog59',
-                                                                                          'phone': '',
-                                                                                          'email': '',
-                                                                                          'activation_code': ''}).json())
+#print(post('http://localhost:5000/api/user_verification/service_access', json={'name': '',
+#                                                                                          'username': 'bezzubka',
+#                                                                                          'password': 'mkdog59',
+#                                                                                          'phone': '',
+#                                                                                          'email': '',
+#                                                                                          'activation_code': ''}).json())
 
 # this login is already taken - этот логин уже кем-то занят
 # this phone has already been used during registration - этот телефон уже использовался при регистрации
