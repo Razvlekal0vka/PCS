@@ -1,8 +1,41 @@
 import csv
-
+from datetime import datetime, date
 from flask import jsonify
 from flask_restful import Resource
 from .users_parser import parser
+
+
+# print(current_datetime.year)
+# print(current_datetime.month)
+# print(current_datetime.day)
+# print(current_datetime.hour)
+# print(current_datetime.minute)
+# print(current_datetime.second)
+# print(current_datetime.microsecond)
+
+def checking_code_for_expiration(code):
+    with open('analysis_and_control_of_user_data/data/activation_keys.csv') as File:
+        reader = csv.reader(File, delimiter=';', quotechar=',',
+                            quoting=csv.QUOTE_MINIMAL)
+        for row in reader:
+            if row != ['activation_code', 'start_of_activation', 'date_of_the_end_activation', 'id']:
+                if row[0] == code:
+                    data_start, data_end = row[1], row[2]
+                    current_datetime = datetime.now()
+                    start_time = data_start.split('.')
+
+                    now_time = str(current_datetime.day) + '.' + str(current_datetime.month) + '.' + str(current_datetime.year)
+                    now_time = now_time.split('.')
+
+                    end_time = data_end.split('.')
+
+                    if date(int(start_time[2]), int(start_time[1]), int(start_time[0])) > date(int(now_time[2]), int(now_time[1]),
+                                                                                               int(now_time[0])):
+                        return 'activation code is not active yet'
+                    if date(int(end_time[2]), int(end_time[1]), int(end_time[0])) < date(int(now_time[2]), int(now_time[1]),
+                                                                                         int(now_time[0])):
+                        return 'activation code expired'
+                    return 'everything is fine'
 
 
 class new_user(Resource):
@@ -32,6 +65,10 @@ class new_user(Resource):
                         phones.append(row[4])
                         mails.append(row[5])
                         activation_codes.append(row[6])
+
+        answer = checking_code_for_expiration(args['activation_code'])
+        if answer != 'everything is fine':
+            return answer
 
         if args['username'] in usernames:
             return jsonify('this login is already taken')
@@ -98,7 +135,7 @@ class new_user(Resource):
                                     quoting=csv.QUOTE_MINIMAL)
                 for row in reader:
                     if row != ['activation_code', 'start_of_activation', 'date_of_the_end_activation', 'id']:
-                        print(row, row[0], '-', row[3], '-',  activation_code, '-')
+                        print(row, row[0], '-', row[3], '-', activation_code, '-')
                         if row[0] == activation_code and row[3] == '':
                             print('-==-=-=-=-=-=-=-=-=-=-=-=-')
                             ack = 1
@@ -162,4 +199,77 @@ class new_user(Resource):
 
 class adding_an_activation_code(Resource):
     def post(self):
+        args = parser.parse_args()
+        username = args['username']
+        password = args['password']
+        activation_code = args['activation_code']
+        id = 0
+        flag = 0
+
+        denominations = ['id', 'name', 'username', 'password', 'phone', 'email', 'activation_code']
+        with open('analysis_and_control_of_user_data/data/users_data.csv', 'r', newline='') as File:
+            reader = csv.reader(File, delimiter=';', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            for row in reader:
+                if row != denominations:
+                    if row[2] == username and password == row[3]:
+                        if row[6] == '':
+                            key_data, ack, id = [], 0, row[0]
+                            with open('analysis_and_control_of_user_data/data/activation_keys.csv') as File:
+                                reader = csv.reader(File, delimiter=';', quotechar=',',
+                                                    quoting=csv.QUOTE_MINIMAL)
+                                for row in reader:
+                                    if row != ['activation_code', 'start_of_activation', 'date_of_the_end_activation',
+                                               'id']:
+                                        if row[0] == activation_code and row[3] == '':
+                                            ack = 1
+                                            key_data.append({'activation_code': row[0], 'start_of_activation': row[1],
+                                                             'date_of_the_end_activation': row[2], 'id': id})
+                                        else:
+                                            key_data.append({'activation_code': row[0], 'start_of_activation': row[1],
+                                                             'date_of_the_end_activation': row[2], 'id': row[3]})
+
+                            with open('analysis_and_control_of_user_data/data/activation_keys.csv', 'w',
+                                      newline="") as csvfile:
+                                fieldnames = ['activation_code', 'start_of_activation', 'date_of_the_end_activation',
+                                              'id']
+                                writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
+                                writer.writeheader()
+                                writer.writerows(key_data)
+
+                            data = []
+                            denominations = ['id', 'name', 'username', 'password', 'phone', 'email', 'activation_code']
+                            with open('analysis_and_control_of_user_data/data/users_data.csv', 'r', newline='') as File:
+                                reader = csv.reader(File, delimiter=';', quotechar=',', quoting=csv.QUOTE_MINIMAL)
+                                for row in reader:
+                                    if row != denominations:
+                                        if row[2] == username and password == row[3]:
+                                            data.append({'id': row[0],
+                                                         'name': row[1],
+                                                         'username': row[2],
+                                                         'password': row[3],
+                                                         'phone': row[4],
+                                                         'email': row[5],
+                                                         'activation_code': activation_code})
+                                        else:
+                                            data.append({'id': row[0],
+                                                         'name': row[1],
+                                                         'username': row[2],
+                                                         'password': row[3],
+                                                         'phone': row[4],
+                                                         'email': row[5],
+                                                         'activation_code': row[6]})
+
+                            with open('analysis_and_control_of_user_data/data/users_data.csv', 'w',
+                                      newline="") as csvfile:
+                                fieldnames = denominations
+                                writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
+                                writer.writeheader()
+                                writer.writerows(data)
+
+                            if ack == 1:
+                                return jsonify('account successfully activated')
+                            return jsonify('such code does not exist or is already being used by someone')
+
+                        elif row[6] == activation_code:
+                            return jsonify('this code is already used in your account')
         pass
