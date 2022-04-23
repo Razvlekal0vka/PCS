@@ -11,4 +11,4 @@ def get_paths_of_all_files_on_device(start_path):
             print(file_name)
 
 
-get_paths_of_all_files_on_device('C:/')  # стартовая папка поиска 'C:/'
+get_paths_of_all_files_on_device('D:/')  # стартовая папка поиска 'C:/'
