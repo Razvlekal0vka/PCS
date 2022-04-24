@@ -23,13 +23,8 @@ def get_drives():
     return drives
 
 
-win = Tk()
-win.title('Porter')
-win.iconphoto(True, PhotoImage(file='img/app_icon.png'))
-
-
 class FileFrame(Frame):
-    def __init__(self, window=None, master=None, width=80, height=50):
+    def __init__(self, window=None, master=None, width=100, height=50):
         super().__init__(master, height=height, width=width)
         self.notepad_exist = False
         self.window = window
@@ -56,35 +51,38 @@ class FileFrame(Frame):
         self.music_img = PhotoImage(file='img/music.png')
         self.unselect_img = PhotoImage(file='img/un-select.png')
         self.download_img = PhotoImage(file='img/download.png')
-        self.simplefilelist = ttk.Treeview(self._w, height=25)
-        self.simplefilelist.grid(sticky='E', column=1)
+        self.simplefilelist = ttk.Treeview(self._w, height=18)
+        self.simplefilelist.grid(sticky='N', column=0, row=0)
         self.full_libs()
         self.simplefilelist.bind('<Button-1>', self.click2)
 
         self.img_lib = os.getcwd() + '\\img\\'
         self.filelistframe = ttk.Frame(self._w)
-        self.filelistframe.grid(sticky='E')
+        self.filelistframe.grid(sticky='E', column=1, row=0)
         self.filelistframe2 = ttk.Frame(self.filelistframe)
-        self.filelistframe2.grid(sticky='E')
+        self.filelistframe2.grid(sticky='E', column=2, row=0)
         self.tk = master.tk
-        self.listbox = ttk.Treeview(self.filelistframe2, columns=("1n", "2n", '3n'), height=10)
+        self.listbox = ttk.Treeview(self.filelistframe2, columns=("1n", "2n", '3n'), height=18)
         self.listbox.heading("#0", text="             Имя", anchor=W)
         self.listbox.heading("1n", text="Дата создания", anchor=W)
         self.listbox.heading("2n", text="Тип", anchor=W)
         self.listbox.heading("3n", text="Размер", anchor=W)
-        self.listbox.grid(sticky='E')
+        self.listbox.grid(sticky='N', )
         scrolly = ttk.Scrollbar(self.filelistframe2)
         self.listbox.config(yscrollcommand=scrolly.set)
-        scrolly.grid(sticky='E')
+        scrolly.grid(sticky='E', row=0, column=2)
         scrolly.config(command=self.listbox.yview)
-        hbar = ttk.Scrollbar(self.filelistframe, orient=HORIZONTAL)
-        hbar.grid(sticky='E')
+
+        '''hbar = ttk.Scrollbar(self.filelistframe, orient=HORIZONTAL)
+        hbar.grid(sticky='E', row=1, column=1)
         hbar.config(command=self.listbox.xview)
-        self.listbox.config(xscrollcommand=hbar.set)
+        self.listbox.config(xscrollcommand=hbar.set)'''
+
         button_frm = ttk.Frame(self._w)
-        button_frm.grid(sticky='E')
-        ttk.Button(button_frm, text='Cmd', command=self.cmd_start, image=self.cmd_img).grid(row=0)
-        ttk.Button(button_frm, text='Новая папка', command=self.new_dir, image=self.newdir_img).grid(row=1)
+        button_frm.grid(sticky='W')
+        ttk.Button(button_frm, text='Cmd', command=self.cmd_start, image=self.cmd_img).grid(sticky='N', row=0, column=0)
+        ttk.Button(button_frm, text='Новая папка', command=self.new_dir, image=self.newdir_img).grid(sticky='N', row=0,
+                                                                                                     column=1)
         self.width = width
         self.height = height
         self.files = {}
@@ -102,8 +100,8 @@ class FileFrame(Frame):
         self.context_menu.add_command(label="Вырезать", command=self.CUT)
         self.context_menu.add_command(label="Переименовать", command=self.RENAME)
         self.context_menu.add_command(label="Удалить", command=self.DELETE)
-        self.context_menu.add_separator()
-        '''self.context_menu.add_command(label="Открыть в блокноте", command=lambda: self.startfile('notepad'))
+        '''self.context_menu.add_separator()
+        self.context_menu.add_command(label="Открыть в блокноте", command=lambda: self.startfile('notepad'))
         if self.notepad_exist:
             self.context_menu.add_command(label="Открыть в Notepad++", command=lambda: self.startfile(
                 '"C:\\Program Files\\Notepad++\\notepad++.exe"'), font=('arial', 11), image=self.notepad_plus_plus_img)'''
@@ -312,6 +310,17 @@ class FileFrame(Frame):
 
         except EXCEPTION:
             pass
+
+
+win = Tk()
+win.title('Porter')
+win.iconphoto(True, PhotoImage(file='img/app_icon.png'))
+style = ttk.Style(win)
+style.configure('Treeview', rowheight=50)
+
+
+style1 = ttk.Style()
+style1.configure("FON", foreground="grey", background="black")
 
 
 filesys = FileFrame(win, win)
