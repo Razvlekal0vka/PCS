@@ -104,6 +104,9 @@ class new_user(Resource):
         else:
             if args['activation_code'] in available_key and args['activation_code'] not in activation_codes and \
                     args['activation_code'] != '':
+                answer = checking_code_for_expiration(args['activation_code'])
+                if answer != 'everything is fine':
+                    return jsonify(answer)
                 activation_code, code_flag = args['activation_code'], 1
             else:
                 activation_code, code_flag = '', 2

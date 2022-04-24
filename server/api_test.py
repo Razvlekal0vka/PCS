@@ -6,7 +6,7 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'name':
                                                                          'password': 'mkdog59',
                                                                          'phone': '+7(866)-666-66-66',
                                                                          'email': '66@gmail.com',
-                                                                         'activation_code': 'P0ZWm%koI8A@'}).json())
+                                                                         'activation_code': ''}).json())
 
 # докидка кода активации
 print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'name': '',
@@ -14,11 +14,11 @@ print(post('http://localhost:5000/api/user_verification/adding_an_activation_cod
                                                                                           'password': 'mkdog59',
                                                                                           'phone': '',
                                                                                           'email': '',
-                                                                                          'activation_code': 'Pxj@62lCu6vw'}).json())
+                                                                                          'activation_code': 'P0ZWm%koI8A@'}).json())
 
 # может ли пользователь пользоваться сервисом
 """"еще не работает"""
-#print(post('http://localhost:5000/api/user_verification/service_access', json={'name': '',
+# print(post('http://localhost:5000/api/user_verification/service_access', json={'name': '',
 #                                                                                          'username': 'bezzubka',
 #                                                                                          'password': 'mkdog59',
 #                                                                                          'phone': '',
@@ -44,3 +44,4 @@ print(post('http://localhost:5000/api/user_verification/adding_an_activation_cod
 # account successfully activated - аккаунт успешно активирован
 # you are already using this activation code - вы уже используете этот код активации
 # you are already using another activation code - вы уже используете другой код активации
+# this user does not exist in the system - такого пользователя нет в системе

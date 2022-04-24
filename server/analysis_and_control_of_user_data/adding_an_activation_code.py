@@ -75,12 +75,52 @@ class adding_an_activation_code(Resource):
         print('adding an activation key by the user')
         args = parser.parse_args()
         username, password, activation_code = args['username'], args['password'], args['activation_code']
+        id, new_user_data, new_key_data = 0, [], []
         for user_data in read_user_data():
             if user_data[2] == username and user_data[3] == password:
+                id = user_data[0]
                 if user_data[6] == activation_code:
                     return jsonify('you are already using this activation code')
                 elif user_data[6] == '':
                     for key_data in read_key_data():
-                        pass
+                        if key_data[0] == activation_code and key_data[3] == '':
+                            answer = checking_code_for_expiration(args['activation_code'])
+                            if answer != 'everything is fine':
+                                return jsonify(answer)
+                            for user_data in read_user_data():
+                                if user_data[2] == username and user_data[3] == password:
+                                    new_user_data.append({'id': user_data[0],
+                                                          'name': user_data[1],
+                                                          'username': user_data[2],
+                                                          'password': user_data[3],
+                                                          'phone': user_data[4],
+                                                          'email': user_data[5],
+                                                          'activation_code': activation_code})
+                                else:
+                                    new_user_data.append({'id': user_data[0],
+                                                          'name': user_data[1],
+                                                          'username': user_data[2],
+                                                          'password': user_data[3],
+                                                          'phone': user_data[4],
+                                                          'email': user_data[5],
+                                                          'activation_code': user_data[6]})
+                            for key_data in read_key_data():
+                                if key_data[0] == activation_code and key_data[3] == '':
+                                    new_key_data.append(
+                                        {'activation_code': key_data[0], 'start_of_activation': key_data[1],
+                                         'date_of_the_end_activation': key_data[2], 'id': id})
+                                else:
+                                    new_key_data.append(
+                                        {'activation_code': key_data[0], 'start_of_activation': key_data[1],
+                                         'date_of_the_end_activation': key_data[2], 'id': key_data[3]})
+
+                            write_key_data(new_key_data)
+                            write_user_data(new_user_data)
+
+                            return jsonify('account successfully activated')
+
+                        elif key_data[0] == activation_code and key_data[3] != '':
+                            return jsonify('such code does not exist or is already being used by someone')
                 else:
                     return jsonify('you are already using another activation code')
+        return jsonify('this user does not exist in the system')
