@@ -1,7 +1,8 @@
 from requests import get, delete, post
 
 # регистрация нового пользователя
-print(post('http://localhost:5000/api/user_verification/new_user', json={'name': 'Razvlekal0vka',
+print(post('http://localhost:5000/api/user_verification/new_user', json={'id': '',
+                                                                         'name': 'Razvlekal0vka',
                                                                          'username': 'bezzubka',
                                                                          'password': 'mkdog59',
                                                                          'phone': '+7(866)-666-66-66',
@@ -9,7 +10,8 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'name':
                                                                          'activation_code': ''}).json())
 
 # докидка кода активации
-print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'name': '',
+print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'id': '',
+                                                                                          'name': '',
                                                                                           'username': 'bezzubka',
                                                                                           'password': 'mkdog59',
                                                                                           'phone': '',
@@ -37,14 +39,25 @@ print(post('http://localhost:5000/api/user_verification/adding_an_activation_cod
 # this user does not exist in the system - такого пользователя нет в системе
 """=================================================================================================================="""
 # авторизация
-print(post('http://localhost:5000/api/user_verification/account_login', json={'name': '',
+print(post('http://localhost:5000/api/user_verification/account_login', json={'id': '',
+                                                                              'name': '',
+                                                                              'username': 'bezzubka',
+                                                                              'password': 'mkdog59',
+                                                                              'phone': '',
+                                                                              'email': '',
+                                                                              'activation_code': ''}).json())
+# может вернуть True пользователя если авторизация прошла успешно
+# the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
+# данные
+"""=================================================================================================================="""
+# что может делать пользователь
+print(post('http://localhost:5000/api/user_verification/check_available_functions', json={'id': '',
+                                                                                          'name': '',
                                                                                           'username': 'bezzubka',
                                                                                           'password': 'mkdog59',
                                                                                           'phone': '',
                                                                                           'email': '',
                                                                                           'activation_code': ''}).json())
-# может вернуть id пользователя если авторизация прошла успешно
+# может вернуть True пользователя если ограничений нет
 # the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
 # данные
-"""=================================================================================================================="""
-

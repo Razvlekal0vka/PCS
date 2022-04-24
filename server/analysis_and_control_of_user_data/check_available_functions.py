@@ -70,14 +70,14 @@ def checking_code_for_expiration(key):
                 return 'everything is fine'
 
 
-class account_login(Resource):
+class check_available_functions(Resource):
     def post(self):
-        print(' - account login')
+        print(' - check_available_functions')
         args = parser.parse_args()
-        username, password = args['username'], args['password']
+        username, password, id = args['username'], args['password'], 0
         for user_data in read_user_data():
             if user_data[2] == username and user_data[3] == password:
-                print('authorization was successful')
+                id = user_data[0]
                 return jsonify(True)
         print('authorisation error')
         return jsonify('the user does not exist or the data entered is incorrect')
