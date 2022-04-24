@@ -8,7 +8,7 @@ import subprocess
 from datetime import datetime
 import string
 from ctypes import windll
-from getpass import getuser as WinGetUsername
+from getpass import getuser
 import threading
 
 
@@ -32,7 +32,7 @@ class FileFrame(Frame):
             self.notepad_exist = True
         self.drives = get_drives()
 
-        self.user = WinGetUsername()
+        self.user = getuser()
         ttk.Style().theme_use('vista')
         self._w = ttk.Frame(master)
         '''ttk.Label(self._w, text='Имя').grid(row=0, column=1)
@@ -67,11 +67,13 @@ class FileFrame(Frame):
         self.listbox.heading("1n", text="Дата создания", anchor=W)
         self.listbox.heading("2n", text="Тип", anchor=W)
         self.listbox.heading("3n", text="Размер", anchor=W)
-        self.listbox.grid(sticky='N', )
-        scrolly = ttk.Scrollbar(self.filelistframe2)
+        self.listbox.grid(sticky='N')
+
+        # Scrolls
+        '''scrolly = ttk.Scrollbar(self.filelistframe)
         self.listbox.config(yscrollcommand=scrolly.set)
-        scrolly.grid(sticky='E', row=0, column=2)
-        scrolly.config(command=self.listbox.yview)
+        scrolly.grid(sticky='NE', row=0, column=2)
+        scrolly.config(command=self.listbox.yview)'''
 
         '''hbar = ttk.Scrollbar(self.filelistframe, orient=HORIZONTAL)
         hbar.grid(sticky='E', row=1, column=1)
@@ -81,7 +83,7 @@ class FileFrame(Frame):
         button_frm = ttk.Frame(self._w)
         button_frm.grid(sticky='W')
         ttk.Button(button_frm, text='Cmd', command=self.cmd_start, image=self.cmd_img).grid(sticky='N', row=0, column=0)
-        ttk.Button(button_frm, text='Новая папка', command=self.new_dir, image=self.newdir_img).grid(sticky='N', row=0,
+        ttk.Button(button_frm, text='Новая папка', command=self.new_dir, image=self.newdir_img).grid(sticky='E', row=0,
                                                                                                      column=1)
         self.width = width
         self.height = height
@@ -89,10 +91,9 @@ class FileFrame(Frame):
         self.images = []
         self.copy_file = os.getcwd()
         self.copy_or_cut = 0
-        self.notepad_plus_plus_img = PhotoImage(file='../test/img\\notepad++.png')
 
         self.listbox.bind('<Double-Button-1>', self.click)
-        self.context_menu = Menu(tearoff=0, bg='#fffff0', font=('arial', 9))
+        self.context_menu = Menu(tearoff=0, bg='#363537', font=('arial', 9), fg='#FFFFFF')
 
         self.context_menu.add_command(label="Открыть", command=self.OPEN)
         self.context_menu.add_command(label="Вставить", command=self.PASTE)
@@ -100,11 +101,7 @@ class FileFrame(Frame):
         self.context_menu.add_command(label="Вырезать", command=self.CUT)
         self.context_menu.add_command(label="Переименовать", command=self.RENAME)
         self.context_menu.add_command(label="Удалить", command=self.DELETE)
-        '''self.context_menu.add_separator()
-        self.context_menu.add_command(label="Открыть в блокноте", command=lambda: self.startfile('notepad'))
-        if self.notepad_exist:
-            self.context_menu.add_command(label="Открыть в Notepad++", command=lambda: self.startfile(
-                '"C:\\Program Files\\Notepad++\\notepad++.exe"'), font=('arial', 11), image=self.notepad_plus_plus_img)'''
+
         self.listbox.bind('<Button-3>', self.context)
         os.chdir('C:\\Users\\' + self.user + '\\')
         self.full_files()
@@ -114,23 +111,31 @@ class FileFrame(Frame):
         # self.simplefilelist.delete(it)
         self.sfl_dict = {}
         self.drives = get_drives()
+
+        style = ttk.Style()
+        style.configure("Treeview", font=('Calibri', 10))  # Modify the font of the body
+        style.configure("Treeview.Heading", font=('Calibri', 13, 'bold'))
+
         self.simplefilelist.heading("#0", text="Библиотеки и диски", anchor=W)
-        self.user_column = self.simplefilelist.insert("", 0, None, text='Пользователь', image=self.user_img)
+        self.user_column = self.simplefilelist.insert("", 0, None, text='Пользователь', image=self.user_img, tags=('1',))
         self.sfl_dict[self.user_column] = 'C:\\Users\\' + self.user
         self.desktop_column = self.simplefilelist.insert("", 1, None, text='Рабочий стол', image=self.desktop_img)
         self.sfl_dict[self.desktop_column] = 'C:\\Users\\' + self.user + '\\Desktop\\'
-        self.download_column = self.simplefilelist.insert("", 2, None, text='Загрузки', image=self.download_img)
+        self.download_column = self.simplefilelist.insert("", 2, None, text='Загрузки', image=self.download_img, tags=('1',))
         self.sfl_dict[self.download_column] = 'C:\\Users\\' + self.user + '\\Downloads\\'
         self.docs_column = self.simplefilelist.insert("", 3, None, text='Документы', image=self.documents_img)
         self.sfl_dict[self.docs_column] = 'C:\\Users\\' + self.user + '\\Documents\\'
-        self.images_column = self.simplefilelist.insert("", 4, None, text='Изображения', image=self.images_img)
+        self.images_column = self.simplefilelist.insert("", 4, None, text='Изображения', image=self.images_img, tags=('1',))
         self.sfl_dict[self.images_column] = 'C:\\Users\\' + self.user + '\\Pictures\\'
         self.video_column = self.simplefilelist.insert("", 5, None, text='Видео', image=self.videos_img)
         self.sfl_dict[self.video_column] = 'C:\\Users\\' + self.user + '\\Videos\\'
-        self.music_column = self.simplefilelist.insert("", 6, None, text='Музыка', image=self.music_img)
+        self.music_column = self.simplefilelist.insert("", 6, None, text='Музыка', image=self.music_img, tags=('1',))
         self.sfl_dict[self.music_column] = 'C:\\Users\\' + self.user + '\\Music\\'
         self.drive_column = self.simplefilelist.insert("", 7, None, text='Диски', image=self.drive_img)
         self.sfl_dict[self.drive_column] = '.'
+
+        self.simplefilelist.tag_configure('1', background='green')
+
         i = 0
         for logical_drive in self.drives:
             i += 1
@@ -154,30 +159,32 @@ class FileFrame(Frame):
             return str(bsize) + 'Б'
 
     def new_dir(self):
-        newname = simpledialog.askstring('Введите имя новой папки!', 'Введите имя: ')
+        newname = simpledialog.askstring('Введите имя новой папки!', 'Имя новой папки: ')
         os.makedirs(newname)
         self.full_files()
 
     def click2(self, event=None):
-        el = self.sfl_dict[self.simplefilelist.selection()[0]]
-        if el != '..':
-            try:
-                os.chdir(el)
-                self.full_files()
-            except Exception as ErrorOpenFolder:
-                msgbox.showerror('Ошибка', 'Не удалось открыть папку или диск!')
+        if self.simplefilelist.selection():
+            el = self.sfl_dict[self.simplefilelist.selection()[0]]
+            if el != '..':
+                try:
+                    os.chdir(el)
+                    self.full_files()
+                except Exception as ErrorOpenFolder:
+                    msgbox.showerror('Ошибка', 'Не удалось открыть папку или диск!')
 
     def click(self, event=None):
-        el = self.files[self.listbox.selection()[0]]
-        # if(1):
-        try:
-            if self.isfile(el):
-                os.startfile(el)
-            else:
-                os.chdir(el + '\\')
-                self.full_files()
-        except Exception as ErrorOpenFile:
-            msgbox.showerror('Ошибка', 'Не удалось открыть файл или директорию!')
+        if self.listbox.selection():
+            el = self.files[self.listbox.selection()[0]]
+            # if(1):
+            try:
+                if self.isfile(el):
+                    os.startfile(el)
+                else:
+                    os.chdir(el + '\\')
+                    self.full_files()
+            except Exception as ErrorOpenFile:
+                msgbox.showerror('Ошибка', 'Не удалось открыть файл или директорию!')
 
     def full_files(self):
         def process():
@@ -284,7 +291,7 @@ class FileFrame(Frame):
             else:
                 shutil.rmtree(el)
                 self.full_files()
-        except EXCEPTION as ErrorOpenFile:
+        except Exception as ErrorOpenFile:
             msgbox.showerror('Ошибка', 'Не удалось удалить папку или директорию!')
 
     def OPEN(self):
@@ -315,13 +322,8 @@ class FileFrame(Frame):
 win = Tk()
 win.title('Porter')
 win.iconphoto(True, PhotoImage(file='img/app_icon.png'))
-style = ttk.Style(win)
-style.configure('Treeview', rowheight=50)
 
-
-style1 = ttk.Style()
-style1.configure("FON", foreground="grey", background="black")
-
+ttk.Style(win).configure('Treeview', rowheight=50)
 
 filesys = FileFrame(win, win)
 filesys.pack(fill=BOTH, expand=1)

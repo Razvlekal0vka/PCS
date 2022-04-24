@@ -332,7 +332,7 @@ class explorer(tk.Frame):
         if self.val[8] != 0:
             q = self.starting_path.split("/")
             for g in q:
-                self.path_buttons = modified_button(self.path, type="other", text=g, bg="#ffffff", borderwidth=0)
+                self.path_buttons = modified_button(self.path, type="other", text=g, bg="#000000", borderwidth=0)
                 self.path_buttons.grid(row=0, column=q.index(g), padx=4)
                 self.path_buttons.bind("<Button-1>", lambda event, r=g: self.updating_path(r))
         if self.val[1] == 0:
