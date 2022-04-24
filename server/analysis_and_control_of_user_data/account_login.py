@@ -6,7 +6,7 @@ from .users_parser import parser
 
 
 def read_user_data():
-    print(' - reading user data')
+    print('reading user data')
     data = []
     with open('analysis_and_control_of_user_data/data/users_data.csv', 'r', newline='') as File:
         reader = csv.reader(File, delimiter=';', quotechar=',', quoting=csv.QUOTE_MINIMAL)
@@ -74,4 +74,10 @@ class account_login(Resource):
     def post(self):
         print(' - account login')
         args = parser.parse_args()
-        return jsonify('я еще не доделал')
+        username, password = args['username'], args['password']
+        for user_data in read_user_data():
+            if user_data[2] == username and user_data[3] == password:
+                print('authorization was successful')
+                return jsonify(user_data[0])
+        print('authorisation error')
+        return jsonify('the user does not exist or the data entered is incorrect')

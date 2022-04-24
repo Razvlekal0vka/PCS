@@ -15,16 +15,6 @@ print(post('http://localhost:5000/api/user_verification/adding_an_activation_cod
                                                                                           'phone': '',
                                                                                           'email': '',
                                                                                           'activation_code': 'P0ZWm%koI8A@'}).json())
-
-# может ли пользователь пользоваться сервисом
-""""еще не работает"""
-# print(post('http://localhost:5000/api/user_verification/service_access', json={'name': '',
-#                                                                                          'username': 'bezzubka',
-#                                                                                          'password': 'mkdog59',
-#                                                                                          'phone': '',
-#                                                                                          'email': '',
-#                                                                                          'activation_code': ''}).json())
-
 # this login is already taken - этот логин уже кем-то занят
 # this phone has already been used during registration - этот телефон уже использовался при регистрации
 # this email address was already used during registration - эта почта уже использовалась при регистрации
@@ -45,3 +35,16 @@ print(post('http://localhost:5000/api/user_verification/adding_an_activation_cod
 # you are already using this activation code - вы уже используете этот код активации
 # you are already using another activation code - вы уже используете другой код активации
 # this user does not exist in the system - такого пользователя нет в системе
+"""=================================================================================================================="""
+# авторизация
+print(post('http://localhost:5000/api/user_verification/account_login', json={'name': '',
+                                                                                          'username': 'bezzubka',
+                                                                                          'password': 'mkdog59',
+                                                                                          'phone': '',
+                                                                                          'email': '',
+                                                                                          'activation_code': ''}).json())
+# может вернуть id пользователя если авторизация прошла успешно
+# the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
+# данные
+"""=================================================================================================================="""
+
