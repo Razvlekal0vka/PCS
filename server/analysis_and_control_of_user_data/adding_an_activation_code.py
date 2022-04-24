@@ -6,7 +6,7 @@ from .users_parser import parser
 
 
 def read_user_data():
-    print('reading user data')
+    print(' - reading user data')
     data = []
     with open('analysis_and_control_of_user_data/data/users_data.csv', 'r', newline='') as File:
         reader = csv.reader(File, delimiter=';', quotechar=',', quoting=csv.QUOTE_MINIMAL)
