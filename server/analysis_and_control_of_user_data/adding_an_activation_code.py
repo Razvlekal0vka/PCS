@@ -72,4 +72,15 @@ def checking_code_for_expiration(key):
 
 class adding_an_activation_code(Resource):
     def post(self):
+        print('adding an activation key by the user')
         args = parser.parse_args()
+        username, password, activation_code = args['username'], args['password'], args['activation_code']
+        for user_data in read_user_data():
+            if user_data[2] == username and user_data[3] == password:
+                if user_data[6] == activation_code:
+                    return jsonify('you are already using this activation code')
+                elif user_data[6] == '':
+                    for key_data in read_key_data():
+                        pass
+                else:
+                    return jsonify('you are already using another activation code')

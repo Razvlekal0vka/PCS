@@ -9,12 +9,12 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'name':
                                                                          'activation_code': 'P0ZWm%koI8A@'}).json())
 
 # докидка кода активации
-#print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'name': '',
-#                                                                                          'username': 'bezzubka',
-#                                                                                          'password': 'mkdog59',
-#                                                                                          'phone': '',
-#                                                                                          'email': '',
-#                                                                                          'activation_code': 'Pxj@62lCu6vw'}).json())
+print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'name': '',
+                                                                                          'username': 'bezzubka',
+                                                                                          'password': 'mkdog59',
+                                                                                          'phone': '',
+                                                                                          'email': '',
+                                                                                          'activation_code': 'Pxj@62lCu6vw'}).json())
 
 # может ли пользователь пользоваться сервисом
 """"еще не работает"""
@@ -42,3 +42,5 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'name':
 # this code is already used in your account - это код уже используется в вашем аккаунте
 # such code does not exist or is already being used by someone - такой код не существует или уже используется кем-то
 # account successfully activated - аккаунт успешно активирован
+# you are already using this activation code - вы уже используете этот код активации
+# you are already using another activation code - вы уже используете другой код активации

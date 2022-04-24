@@ -102,7 +102,8 @@ class new_user(Resource):
         elif args['activation_code'] in activation_codes and args['activation_code'] != '':
             return jsonify('this activation code has already been used during registration')
         else:
-            if args['activation_code'] in available_key and args['activation_code'] not in activation_codes and args['activation_code'] != '':
+            if args['activation_code'] in available_key and args['activation_code'] not in activation_codes and \
+                    args['activation_code'] != '':
                 activation_code, code_flag = args['activation_code'], 1
             else:
                 activation_code, code_flag = '', 2
