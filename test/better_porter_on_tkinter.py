@@ -33,7 +33,10 @@ class FileFrame(Frame):
         self.drives = get_drives()
 
         self.user = getuser()
-        ttk.Style().theme_use('vista')
+        style = ttk.Style(win)
+        style.theme_use("clam")
+        ttk.Style().configure("Treeview", background="black",
+                              foreground="black", fieldbackground="black", rowheight=50)
         self._w = ttk.Frame(master)
         '''ttk.Label(self._w, text='Имя').grid(row=0, column=1)
         ttk.Label(self._w, text='Дата создания').grid(row=0, column=2)
@@ -51,7 +54,7 @@ class FileFrame(Frame):
         self.music_img = PhotoImage(file='img/music.png')
         self.unselect_img = PhotoImage(file='img/un-select.png')
         self.download_img = PhotoImage(file='img/download.png')
-        self.simplefilelist = ttk.Treeview(self._w, height=18)
+        self.simplefilelist = ttk.Treeview(self._w, height=12)
         self.simplefilelist.grid(sticky='N', column=0, row=0)
         self.full_libs()
         self.simplefilelist.bind('<Button-1>', self.click2)
@@ -62,11 +65,16 @@ class FileFrame(Frame):
         self.filelistframe2 = ttk.Frame(self.filelistframe)
         self.filelistframe2.grid(sticky='E', column=2, row=0)
         self.tk = master.tk
-        self.listbox = ttk.Treeview(self.filelistframe2, columns=("1n", "2n", '3n'), height=18)
+
+        ttk.Style().configure(self.filelistframe2, background="black",
+                              foreground="black", rowheight=50)
+
+        self.listbox = ttk.Treeview(self.filelistframe2, columns=("1n", "2n", '3n'), height=12)
         self.listbox.heading("#0", text="             Имя", anchor=W)
         self.listbox.heading("1n", text="Дата создания", anchor=W)
         self.listbox.heading("2n", text="Тип", anchor=W)
         self.listbox.heading("3n", text="Размер", anchor=W)
+        self.listbox.configure(style="black.Treeview")
         self.listbox.grid(sticky='N')
 
         # Scrolls
@@ -117,24 +125,22 @@ class FileFrame(Frame):
         style.configure("Treeview.Heading", font=('Calibri', 13, 'bold'))
 
         self.simplefilelist.heading("#0", text="Библиотеки и диски", anchor=W)
-        self.user_column = self.simplefilelist.insert("", 0, None, text='Пользователь', image=self.user_img, tags=('1',))
+        self.user_column = self.simplefilelist.insert("", 0, None, text='Пользователь', image=self.user_img)
         self.sfl_dict[self.user_column] = 'C:\\Users\\' + self.user
         self.desktop_column = self.simplefilelist.insert("", 1, None, text='Рабочий стол', image=self.desktop_img)
         self.sfl_dict[self.desktop_column] = 'C:\\Users\\' + self.user + '\\Desktop\\'
-        self.download_column = self.simplefilelist.insert("", 2, None, text='Загрузки', image=self.download_img, tags=('1',))
+        self.download_column = self.simplefilelist.insert("", 2, None, text='Загрузки', image=self.download_img)
         self.sfl_dict[self.download_column] = 'C:\\Users\\' + self.user + '\\Downloads\\'
         self.docs_column = self.simplefilelist.insert("", 3, None, text='Документы', image=self.documents_img)
         self.sfl_dict[self.docs_column] = 'C:\\Users\\' + self.user + '\\Documents\\'
-        self.images_column = self.simplefilelist.insert("", 4, None, text='Изображения', image=self.images_img, tags=('1',))
+        self.images_column = self.simplefilelist.insert("", 4, None, text='Изображения', image=self.images_img)
         self.sfl_dict[self.images_column] = 'C:\\Users\\' + self.user + '\\Pictures\\'
         self.video_column = self.simplefilelist.insert("", 5, None, text='Видео', image=self.videos_img)
         self.sfl_dict[self.video_column] = 'C:\\Users\\' + self.user + '\\Videos\\'
-        self.music_column = self.simplefilelist.insert("", 6, None, text='Музыка', image=self.music_img, tags=('1',))
+        self.music_column = self.simplefilelist.insert("", 6, None, text='Музыка', image=self.music_img)
         self.sfl_dict[self.music_column] = 'C:\\Users\\' + self.user + '\\Music\\'
         self.drive_column = self.simplefilelist.insert("", 7, None, text='Диски', image=self.drive_img)
         self.sfl_dict[self.drive_column] = '.'
-
-        self.simplefilelist.tag_configure('1', background='green')
 
         i = 0
         for logical_drive in self.drives:
@@ -323,7 +329,8 @@ win = Tk()
 win.title('Porter')
 win.iconphoto(True, PhotoImage(file='img/app_icon.png'))
 
-ttk.Style(win).configure('Treeview', rowheight=50)
+ttk.Style().configure("Treeview", background="black",
+                      foreground="black", fieldbackground="black", rowheight=50)
 
 filesys = FileFrame(win, win)
 filesys.pack(fill=BOTH, expand=1)
