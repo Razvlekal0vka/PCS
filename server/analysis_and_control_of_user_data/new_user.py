@@ -1,4 +1,5 @@
 import csv
+import os
 from datetime import datetime, date
 from flask import jsonify
 from flask_restful import Resource
@@ -190,6 +191,9 @@ class new_user(Resource):
 
             print('key data update')
             write_user_data(user_data)
+
+            id = str(max_id + 1)
+            os.makedirs(f"""C:\PCS\server\users\{id}""")
 
             if code_flag == 1:
                 print('account successfully created with activation code')
