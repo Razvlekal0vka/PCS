@@ -35,9 +35,14 @@ class FileFrame(Frame):
         self.user = getuser()
         style = ttk.Style(win)
         style.theme_use("clam")
-        ttk.Style().configure("Treeview", background="black",
-                              foreground="black", fieldbackground="black", rowheight=50)
-        self._w = ttk.Frame(master)
+
+        ttk.Style().configure('My.TFrame', background='black', foreground='white', fieldbackground='green',
+                              rowheight=50)
+
+        ttk.Style().configure("Treeview", background="black", foreground="black", fieldbackground="black", rowheight=50)
+        ttk.Style().configure("Treeview.heading", background="black", foreground="black", fieldbackground="black", rowheight=50)
+
+        self._w = ttk.Frame(master, style='My.TFrame')
         '''ttk.Label(self._w, text='Имя').grid(row=0, column=1)
         ttk.Label(self._w, text='Дата создания').grid(row=0, column=2)
         ttk.Label(self._w, text='Тип').grid(row=0, column=3)'''
@@ -54,27 +59,24 @@ class FileFrame(Frame):
         self.music_img = PhotoImage(file='img/music.png')
         self.unselect_img = PhotoImage(file='img/un-select.png')
         self.download_img = PhotoImage(file='img/download.png')
-        self.simplefilelist = ttk.Treeview(self._w, height=12)
+        self.simplefilelist = ttk.Treeview(self._w, height=12, style='My.TFrame')
         self.simplefilelist.grid(sticky='N', column=0, row=0)
         self.full_libs()
         self.simplefilelist.bind('<Button-1>', self.click2)
 
         self.img_lib = os.getcwd() + '\\img\\'
-        self.filelistframe = ttk.Frame(self._w)
+        self.filelistframe = ttk.Frame(self._w, style='My.TFrame')
         self.filelistframe.grid(sticky='E', column=1, row=0)
-        self.filelistframe2 = ttk.Frame(self.filelistframe)
+        self.filelistframe2 = ttk.Frame(self.filelistframe, style='My.TFrame')
         self.filelistframe2.grid(sticky='E', column=2, row=0)
         self.tk = master.tk
 
-        ttk.Style().configure(self.filelistframe2, background="black",
-                              foreground="black", rowheight=50)
-
-        self.listbox = ttk.Treeview(self.filelistframe2, columns=("1n", "2n", '3n'), height=12)
+        self.listbox = ttk.Treeview(self.filelistframe2, columns=("1n", "2n", '3n'), height=12, style='Treeview')
         self.listbox.heading("#0", text="             Имя", anchor=W)
         self.listbox.heading("1n", text="Дата создания", anchor=W)
         self.listbox.heading("2n", text="Тип", anchor=W)
         self.listbox.heading("3n", text="Размер", anchor=W)
-        self.listbox.configure(style="black.Treeview")
+        self.listbox.configure(style="My.TFrame")
         self.listbox.grid(sticky='N')
 
         # Scrolls
@@ -90,6 +92,7 @@ class FileFrame(Frame):
 
         button_frm = ttk.Frame(self._w)
         button_frm.grid(sticky='W')
+        button_frm.configure()
         ttk.Button(button_frm, text='Cmd', command=self.cmd_start, image=self.cmd_img).grid(sticky='N', row=0, column=0)
         ttk.Button(button_frm, text='Новая папка', command=self.new_dir, image=self.newdir_img).grid(sticky='E', row=0,
                                                                                                      column=1)
