@@ -3,7 +3,7 @@ import socket
 # создаём сокет и связываем его с IP-адресом и портом
 
 sock = socket.socket()
-ip = '26.43.19.188'
+ip = '26.137.155.119'
 port = 53210
 sock.bind((ip, port))
 
@@ -18,9 +18,10 @@ while True:
     print('connected:', addr)
 
     # получаем название файла
+    downloads = 'C:/Users/User/PycharmProjects/PCS/server/downloads/'
     name_f = (conn.recv(1024)).decode('UTF-8')
-    name_f = name_f[name_f.rfind('/') + 1:]
-
+    received_name_file = name_f[name_f.rfind('/') + 1:]
+    name_f = downloads + name_f[name_f.rfind('/') + 1:]
     # открываем файл в режиме байтовой записи (в отдельной папке 'downloads')
     f = open(name_f, 'wb')
 
@@ -38,4 +39,4 @@ while True:
     f.close()
     conn.close()
 
-    print(f'{name_f} received')
+    print(f'{received_name_file} received to {downloads[:-1]}')
