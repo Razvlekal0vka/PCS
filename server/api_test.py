@@ -1,7 +1,7 @@
 from requests import get, delete, post
 
 # регистрация нового пользователя
-print(post('http://localhost:5000/api/user_verification/new_user', json={'id': '',
+print(post('http://127.0.0.1:8081/api/user_verification/new_user', json={'id': '',
                                                                          'name': 'Razvlekal0vka',
                                                                          'username': 'bezzubka',
                                                                          'password': 'mkdog59',
@@ -10,7 +10,7 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'id': '
                                                                          'activation_code': ''}).json())
 
 # докидка кода активации
-print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'id': '',
+print(post('http://127.0.0.1:8081/api/user_verification/adding_an_activation_code', json={'id': '',
                                                                                           'name': '',
                                                                                           'username': 'bezzubka',
                                                                                           'password': 'mkdog59',
@@ -39,7 +39,7 @@ print(post('http://localhost:5000/api/user_verification/adding_an_activation_cod
 # this user does not exist in the system - такого пользователя нет в системе
 """=================================================================================================================="""
 # авторизация
-print(post('http://localhost:5000/api/user_verification/account_login', json={'id': '',
+print(post('http://127.0.0.1:8081/api/user_verification/account_login', json={'id': '',
                                                                               'name': '',
                                                                               'username': 'bezzubka',
                                                                               'password': 'mkdog59',
@@ -51,7 +51,7 @@ print(post('http://localhost:5000/api/user_verification/account_login', json={'i
 # данные
 """=================================================================================================================="""
 # что может делать пользователь
-print(post('http://localhost:5000/api/user_verification/check_available_functions', json={'id': '',
+print(post('http://127.0.0.1:8081/api/user_verification/check_available_functions', json={'id': '',
                                                                                           'name': '',
                                                                                           'username': 'bezzubka',
                                                                                           'password': 'mkdog59',

@@ -23,7 +23,7 @@ api.add_resource(check_available_functions, '/api/user_verification/check_availa
 
 
 def main():
-    app.run()
+    app.run(port=8081, host='127.0.0.1')
 
 
 if __name__ == '__main__':
