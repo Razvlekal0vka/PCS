@@ -71,6 +71,13 @@ def checking_code_for_expiration(key):
                 return 'everything is fine'
 
 
+def write_new_user_data(id):
+    with open(f'C://PCS/server/users/{id}/user_data/data.csv', 'w', newline="") as csvfile:
+        fieldnames = ['file', 'users_who_have_access']
+        writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
+        writer.writeheader()
+
+
 class new_user(Resource):
     def post(self):
         print(' - new user registration')
@@ -193,7 +200,14 @@ class new_user(Resource):
             write_user_data(user_data)
 
             id = str(max_id + 1)
-            os.makedirs(f"""C:\PCS\server\users\{id}""")
+            os.mkdir(f"C://PCS")
+            os.mkdir(f"C://PCS/server")
+            os.mkdir(f"C://PCS/server/users")
+            os.mkdir(f"C://PCS/server/users/{id}")
+            os.mkdir(f"C://PCS/server/users/{id}/files")
+            os.mkdir(f"C://PCS/server/users/{id}/user_data")
+
+            write_new_user_data(id)
 
             if code_flag == 1:
                 print('account successfully created with activation code')
