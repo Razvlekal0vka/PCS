@@ -1,4 +1,5 @@
 import csv
+import os
 from datetime import datetime, date
 from flask import jsonify
 from flask_restful import Resource
@@ -68,6 +69,13 @@ def checking_code_for_expiration(key):
             else:
                 print('everything is fine')
                 return 'everything is fine'
+
+
+def write_new_user_data(id):
+    with open(f'C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}/user_data/data.csv', 'w', newline="") as csvfile:
+        fieldnames = ['file', 'users_who_have_access']
+        writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
+        writer.writeheader()
 
 
 class new_user(Resource):
@@ -190,6 +198,16 @@ class new_user(Resource):
 
             print('key data update')
             write_user_data(user_data)
+
+            id = str(max_id + 1)
+            #os.mkdir(f"C://PCS")
+            #os.mkdir(f"C://PCS/server")
+            #os.mkdir(f"C://PCS/server/users")
+            os.mkdir(f"C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}")
+            os.mkdir(f"C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}/files")
+            os.mkdir(f"C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}/user_data")
+
+            write_new_user_data(id)
 
             if code_flag == 1:
                 print('account successfully created with activation code')

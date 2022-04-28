@@ -3,10 +3,15 @@ import csv
 from flask import Flask
 from flask_login import LoginManager
 from flask_restful import Api
+
 from analysis_and_control_of_user_data.new_user import new_user
 from analysis_and_control_of_user_data.adding_an_activation_code import adding_an_activation_code
 from analysis_and_control_of_user_data.account_login import account_login
 from analysis_and_control_of_user_data.check_available_functions import check_available_functions
+
+from analysis_and_control_of_user_data.new_file import new_file
+from analysis_and_control_of_user_data.change_file import change_file
+from analysis_and_control_of_user_data.delete_file import delete_file
 
 app = Flask(__name__)
 api = Api(app)
@@ -21,9 +26,13 @@ api.add_resource(adding_an_activation_code, '/api/user_verification/adding_an_ac
 api.add_resource(account_login, '/api/user_verification/account_login')
 api.add_resource(check_available_functions, '/api/user_verification/check_available_functions')
 
+api.add_resource(new_file, '/api/user_file/new_file')
+api.add_resource(change_file, '/api/user_file/change_file')
+api.add_resource(delete_file, '/api/user_file/delete_file')
+
 
 def main():
-    app.run()
+    app.run(port=8081, host='127.0.0.1')
 
 
 if __name__ == '__main__':

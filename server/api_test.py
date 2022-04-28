@@ -1,7 +1,7 @@
 from requests import get, delete, post
 
 # регистрация нового пользователя
-print(post('http://localhost:5000/api/user_verification/new_user', json={'id': '',
+print(post('http://127.0.0.1:8081/api/user_verification/new_user', json={'id': '',
                                                                          'name': 'Razvlekal0vka',
                                                                          'username': 'bezzubka',
                                                                          'password': 'mkdog59',
@@ -10,7 +10,7 @@ print(post('http://localhost:5000/api/user_verification/new_user', json={'id': '
                                                                          'activation_code': ''}).json())
 
 # докидка кода активации
-print(post('http://localhost:5000/api/user_verification/adding_an_activation_code', json={'id': '',
+print(post('http://127.0.0.1:8081/api/user_verification/adding_an_activation_code', json={'id': '',
                                                                                           'name': '',
                                                                                           'username': 'bezzubka',
                                                                                           'password': 'mkdog59',
@@ -39,7 +39,7 @@ print(post('http://localhost:5000/api/user_verification/adding_an_activation_cod
 # this user does not exist in the system - такого пользователя нет в системе
 """=================================================================================================================="""
 # авторизация
-print(post('http://localhost:5000/api/user_verification/account_login', json={'id': '',
+print(post('http://127.0.0.1:8081/api/user_verification/account_login', json={'id': '',
                                                                               'name': '',
                                                                               'username': 'bezzubka',
                                                                               'password': 'mkdog59',
@@ -51,7 +51,7 @@ print(post('http://localhost:5000/api/user_verification/account_login', json={'i
 # данные
 """=================================================================================================================="""
 # что может делать пользователь
-print(post('http://localhost:5000/api/user_verification/check_available_functions', json={'id': '',
+print(post('http://127.0.0.1:8081/api/user_verification/check_available_functions', json={'id': '',
                                                                                           'name': '',
                                                                                           'username': 'bezzubka',
                                                                                           'password': 'mkdog59',
@@ -61,3 +61,42 @@ print(post('http://localhost:5000/api/user_verification/check_available_function
 # может вернуть True пользователя если ограничений нет
 # the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
 # данные
+"""=================================================================================================================="""
+# запрос на добавление файла в документацию о файлах
+print(post('http://127.0.0.1:8081/api/user_file/new_file', json={'username': 'bezzubka',
+                                                                 'password': 'mkdog59',
+                                                                 'friend_username': '',
+                                                                 'new_file': 'xuy.txt',
+                                                                 'delete_file': '',
+                                                                 'email': '',
+                                                                 'accessible_file': ''}).json())
+# True - all good
+# the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
+# данные
+"""=================================================================================================================="""
+# запрос на удаление файла в документацию о файлах
+print(post('http://127.0.0.1:8081/api/user_file/delete_file', json={'username': 'bezzubka',
+                                                                 'password': 'mkdog59',
+                                                                 'friend_username': '',
+                                                                 'new_file': '',
+                                                                 'delete_file': 'xuy(1).txt',
+                                                                 'email': '',
+                                                                 'accessible_file': ''}).json())
+# True - all good
+# no_such_file_exists - такого файла не существует
+# the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
+# данные
+"""=================================================================================================================="""
+# запрос на изменение имени или расположения файла в документацию о файлах
+print(post('http://127.0.0.1:8081/api/user_file/change_file', json={'username': 'bezzubka',
+                                                                 'password': 'mkdog59',
+                                                                 'friend_username': '',
+                                                                 'new_file': 'MyBadFile/GoodFile.txt',
+                                                                 'delete_file': 'xuy(0).txt',
+                                                                 'email': '',
+                                                                 'accessible_file': ''}).json())
+# True - all good
+# no_such_file_exists - такого файла не существует
+# the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
+# данные
+
