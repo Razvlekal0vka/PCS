@@ -1,22 +1,22 @@
 from requests import get, delete, post
 
 # регистрация нового пользователя
-#print(post('http://127.0.0.1:8081/api/user_verification/new_user', json={'id': '',
-#                                                                         'name': 'Razvlekal0vka',
-#                                                                         'username': 'bezzubka',
-#                                                                         'password': 'mkdog59',
-#                                                                         'phone': '+7(866)-666-66-66',
-#                                                                         'email': '66@gmail.com',
-#                                                                         'activation_code': ''}).json())
+print(post('http://127.0.0.1:8081/api/user_verification/new_user', json={'id': '',
+                                                                         'name': 'Razvlekal0vka',
+                                                                         'username': 'bezzubka',
+                                                                         'password': 'mkdog59',
+                                                                         'phone': '+7(866)-666-66-66',
+                                                                         'email': '66@gmail.com',
+                                                                         'activation_code': ''}).json())
 
 # докидка кода активации
-#print(post('http://127.0.0.1:8081/api/user_verification/adding_an_activation_code', json={'id': '',
-#                                                                                          'name': '',
-#                                                                                          'username': 'bezzubka',
-#                                                                                          'password': 'mkdog59',
-#                                                                                          'phone': '',
-#                                                                                          'email': '',
-#                                                                                          'activation_code': 'P0ZWm%koI8A@'}).json())
+print(post('http://127.0.0.1:8081/api/user_verification/adding_an_activation_code', json={'id': '',
+                                                                                          'name': '',
+                                                                                          'username': 'bezzubka',
+                                                                                          'password': 'mkdog59',
+                                                                                          'phone': '',
+                                                                                          'email': '',
+                                                                                          'activation_code': 'P0ZWm%koI8A@'}).json())
 # this login is already taken - этот логин уже кем-то занят
 # this phone has already been used during registration - этот телефон уже использовался при регистрации
 # this email address was already used during registration - эта почта уже использовалась при регистрации

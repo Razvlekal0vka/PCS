@@ -19,7 +19,7 @@ def read_user_data():
 def read_user_data_of_file(id):
     print('reading data by file')
     data = []
-    with open(f'C://PCS/server/users/{id}/user_data/data.csv') as File:
+    with open(f'C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}/user_data/data.csv') as File:
         reader = csv.reader(File, delimiter=';', quotechar=',',
                             quoting=csv.QUOTE_MINIMAL)
         for row in reader:
@@ -29,7 +29,7 @@ def read_user_data_of_file(id):
 
 
 def write_user_data_of_file(user_data, id):
-    with open(f'C://PCS/server/users/{id}/user_data/data.csv', 'w', newline="") as csvfile:
+    with open(f'C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}/user_data/data.csv', 'w', newline="") as csvfile:
         fieldnames = ['file', 'users_who_have_access']
         writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
         writer.writeheader()

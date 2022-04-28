@@ -72,7 +72,7 @@ def checking_code_for_expiration(key):
 
 
 def write_new_user_data(id):
-    with open(f'C://PCS/server/users/{id}/user_data/data.csv', 'w', newline="") as csvfile:
+    with open(f'C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}/user_data/data.csv', 'w', newline="") as csvfile:
         fieldnames = ['file', 'users_who_have_access']
         writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=fieldnames)
         writer.writeheader()
@@ -200,12 +200,12 @@ class new_user(Resource):
             write_user_data(user_data)
 
             id = str(max_id + 1)
-            os.mkdir(f"C://PCS")
-            os.mkdir(f"C://PCS/server")
-            os.mkdir(f"C://PCS/server/users")
-            os.mkdir(f"C://PCS/server/users/{id}")
-            os.mkdir(f"C://PCS/server/users/{id}/files")
-            os.mkdir(f"C://PCS/server/users/{id}/user_data")
+            #os.mkdir(f"C://PCS")
+            #os.mkdir(f"C://PCS/server")
+            #os.mkdir(f"C://PCS/server/users")
+            os.mkdir(f"C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}")
+            os.mkdir(f"C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}/files")
+            os.mkdir(f"C://Users/Razvlekal0vka/PycharmProjects/PCS/server/users/{id}/user_data")
 
             write_new_user_data(id)
 
