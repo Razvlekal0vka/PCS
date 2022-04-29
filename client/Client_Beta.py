@@ -3,7 +3,7 @@ import socket
 from tkinter import filedialog, Tk, Button, ttk
 from tkinter import messagebox as mb
 
-ip = '127.0.0.1'
+ip = '26.43.19.188'
 port = 53210
 address = ip, port
 
@@ -45,7 +45,9 @@ def send_files_with_open_file_dialog_window(address):
     try:
         for file in files:
             send_file(file, address)
+            print()
             print(file, 'received')
+            print()
 
     except Exception as exception:
         print(f'Ошибка связанная с функцией /send_files_with_open_file_dialog_window\\', exception)

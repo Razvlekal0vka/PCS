@@ -3,7 +3,7 @@ import socket
 # создаём сокет и связываем его с IP-адресом и портом
 
 sock = socket.socket()
-ip = '127.0.0.1'
+ip = '26.43.19.188'
 port = 53210
 sock.bind((ip, port))
 
@@ -18,7 +18,7 @@ while True:
     print('connected:', addr)
 
     # получаем название файла
-    downloads = 'C:/Users/User/PycharmProjects/PCS/server/downloads/'
+    downloads = 'C:/Users/kirar/PycharmProjects/PCS/server/downloads/'
     name_f = (conn.recv(1024)).decode('UTF-8')
     received_name_file = name_f[name_f.rfind('/') + 1:]
     name_f = downloads + name_f[name_f.rfind('/') + 1:]
@@ -39,4 +39,4 @@ while True:
     f.close()
     conn.close()
 
-    print(f'{received_name_file} received to {downloads[:-1]}')
+    print(f'{received_name_file} received to {downloads[:-1]}\n')
