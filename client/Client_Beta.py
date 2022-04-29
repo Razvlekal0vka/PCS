@@ -3,7 +3,7 @@ import socket
 from tkinter import filedialog, Tk, Button, ttk
 from tkinter import messagebox as mb
 
-ip = '26.137.155.119'
+ip = '127.0.0.1'
 port = 53210
 address = ip, port
 
