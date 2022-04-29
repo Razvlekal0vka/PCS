@@ -1,14 +1,15 @@
-import tkinter
-from tkinter import ttk
+from tkinter import *
 
-root = tkinter.Tk()
+tkWindow = Tk()
+tkWindow.geometry('400x150')
+tkWindow.title('PythonExamples.org - Tkinter Example')
 
-style = ttk.Style()
-style.map("C.TButton",
-          foreground=[('pressed', 'red'), ('active', 'blue')],
-          background=[('pressed', '!disabled', 'black'), ('active', 'white')]
-          )
 
-colored_btn = ttk.Button(text="Test", style="C.TButton").pack()
+def changeText():
+    button['text'] = 'Submitted'
 
-root.mainloop()
+
+button = Button(tkWindow, text='Submit', command=changeText)
+button.pack()
+
+tkWindow.mainloop()

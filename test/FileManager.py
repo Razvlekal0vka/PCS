@@ -23,16 +23,18 @@ def get_drives():
     return drives
 
 
-class FileFrame(Frame):
+class FileManager(Frame):
     def __init__(self, window=None, master=None, width=100, height=50):
         super().__init__(master, height=height, width=width)
         self.notepad_exist = False
         self.window = window
+
         if os.path.isfile('C:\\Program Files\\Notepad++\\notepad++.exe'):
             self.notepad_exist = True
-        self.drives = get_drives()
 
+        self.drives = get_drives()
         self.user = getuser()
+
         style = ttk.Style(win)
         style.theme_use("clam")
 
@@ -43,9 +45,7 @@ class FileFrame(Frame):
         ttk.Style().configure("Treeview.heading", background="black", foreground="black", fieldbackground="black", rowheight=50)
 
         self._w = ttk.Frame(master, style='My.TFrame')
-        '''ttk.Label(self._w, text='Имя').grid(row=0, column=1)
-        ttk.Label(self._w, text='Дата создания').grid(row=0, column=2)
-        ttk.Label(self._w, text='Тип').grid(row=0, column=3)'''
+
         self.cmd_img = PhotoImage(file='img/cmd_img.png')
         self.dir_img = PhotoImage(file='img/dir.png')
         self.newdir_img = PhotoImage(file='img/new_dir.png')
@@ -59,6 +59,7 @@ class FileFrame(Frame):
         self.music_img = PhotoImage(file='img/music.png')
         self.unselect_img = PhotoImage(file='img/un-select.png')
         self.download_img = PhotoImage(file='img/download.png')
+
         self.simplefilelist = ttk.Treeview(self._w, height=12, style='My.TFrame')
         self.simplefilelist.grid(sticky='N', column=0, row=0)
         self.full_libs()
@@ -67,6 +68,7 @@ class FileFrame(Frame):
         self.img_lib = os.getcwd() + '\\img\\'
         self.filelistframe = ttk.Frame(self._w, style='My.TFrame')
         self.filelistframe.grid(sticky='E', column=1, row=0)
+
         self.filelistframe2 = ttk.Frame(self.filelistframe, style='My.TFrame')
         self.filelistframe2.grid(sticky='E', column=2, row=0)
         self.tk = master.tk
@@ -335,6 +337,6 @@ win.iconphoto(True, PhotoImage(file='img/app_icon.png'))
 ttk.Style().configure("Treeview", background="black",
                       foreground="black", fieldbackground="black", rowheight=50)
 
-filesys = FileFrame(win, win)
+filesys = FileManager(win, win)
 filesys.pack(fill=BOTH, expand=1)
 win.mainloop()
