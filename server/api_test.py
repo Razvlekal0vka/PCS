@@ -5,8 +5,8 @@ print(post('http://127.0.0.1:8081/api/user_verification/new_user', json={'id': '
                                                                          'name': 'Razvlekal0vka',
                                                                          'username': 'bezzubka',
                                                                          'password': 'mkdog59',
-                                                                         'phone': '+7(866)-666-66-66',
-                                                                         'email': '66@gmail.com',
+                                                                         'phone': '+7(666)-666-66-66',
+                                                                         'email': '666@gmail.com',
                                                                          'activation_code': ''}).json())
 
 # докидка кода активации
