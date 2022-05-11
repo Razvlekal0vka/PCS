@@ -99,10 +99,14 @@ def registration(update, context):
 
 def password_recovery(update, context):
     update.message.reply_text('password_recovery')
+    update.message.reply_text('Не работает')
+    update.message.reply_text('Does not work')
 
 
 def account_deleting(update, context):
     update.message.reply_text('account_deleting')
+    update.message.reply_text('Не работает')
+    update.message.reply_text('Does not work')
 
 
 def close_keyboard(update, context):
@@ -118,6 +122,7 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("entrance_to_account", entrance_to_account))
     dp.add_handler(CommandHandler("registration", registration))
     dp.add_handler(CommandHandler("password_recovery", password_recovery))
     dp.add_handler(CommandHandler("account_deleting", account_deleting))

@@ -76,12 +76,12 @@ print(post('http://127.0.0.1:8081/api/user_file/new_file', json={'username': 'be
 """=================================================================================================================="""
 # запрос на удаление файла в документацию о файлах
 print(post('http://127.0.0.1:8081/api/user_file/delete_file', json={'username': 'bezzubka',
-                                                                 'password': 'mkdog59',
-                                                                 'friend_username': '',
-                                                                 'new_file': '',
-                                                                 'delete_file': 'xuy(1).txt',
-                                                                 'email': '',
-                                                                 'accessible_file': ''}).json())
+                                                                    'password': 'mkdog59',
+                                                                    'friend_username': '',
+                                                                    'new_file': '',
+                                                                    'delete_file': 'xuy(1).txt',
+                                                                    'email': '',
+                                                                    'accessible_file': ''}).json())
 # True - all good
 # no_such_file_exists - такого файла не существует
 # the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
@@ -89,14 +89,30 @@ print(post('http://127.0.0.1:8081/api/user_file/delete_file', json={'username': 
 """=================================================================================================================="""
 # запрос на изменение имени или расположения файла в документацию о файлах
 print(post('http://127.0.0.1:8081/api/user_file/change_file', json={'username': 'bezzubka',
-                                                                 'password': 'mkdog59',
-                                                                 'friend_username': '',
-                                                                 'new_file': 'MyBadFile/GoodFile.txt',
-                                                                 'delete_file': 'xuy(0).txt',
-                                                                 'email': '',
-                                                                 'accessible_file': ''}).json())
+                                                                    'password': 'mkdog59',
+                                                                    'friend_username': '',
+                                                                    'new_file': 'MyBadFile/GoodFile.txt',
+                                                                    'delete_file': 'xuy(0).txt',
+                                                                    'email': '',
+                                                                    'accessible_file': ''}).json())
 # True - all good
 # no_such_file_exists - такого файла не существует
 # the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
 # данные
-
+"""=================================================================================================================="""
+# получение id пользователя
+print(post('http://127.0.0.1:8081/api/user_verification/user_id', json={'id': '',
+                                                                        'name': '',
+                                                                        'username': 'bezzubka',
+                                                                        'password': 'mkdog59',
+                                                                        'phone': '',
+                                                                        'email': '',
+                                                                        'activation_code': ''}).json())
+# может вернуть id пользователя если авторизация прошла успешно
+# the user does not exist or the data entered is incorrect - такого пользователя не существует или введены неправильные
+# данные
+"""=================================================================================================================="""
+# связь teledram и PCS id
+print(post('http://127.0.0.1:8081/api/telegram/telegram_id', json={'telegram_id': '',
+                                                                   'pcs_id': ''}).json())
+# True - all good
