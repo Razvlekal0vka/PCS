@@ -1,3 +1,6 @@
 file;users_who_have_access
 xuy.txt;
 MyBadFile/GoodFile.txt;
+MyBadFile/GoodFile(0).txt;
+MyBadFile/GoodFile(0)(0).txt;
+MyBadFile/GoodFile(0)(0)(0).txt;
